@@ -14,18 +14,18 @@ public class HelpMethods {
 	}
 
 	private static boolean IsSolid(float x, float y, int[][] lvlData) {
-		//if (x < 0 || x >= Game.GAME_WIDTH)
-		//	return true;
-		//if (y < 0 || y >= Game.GAME_HEIGHT)
-		//	return true;
+		if (x < 0 || x >= Game.GAME_WIDTH)
+			return true;
+		if (y < 0 || y >= Game.GAME_HEIGHT)
+			return true;
 
 		float xIndex = x / Game.TILES_SIZE;
 		float yIndex = y / Game.TILES_SIZE;
 
 		int value = lvlData[(int) yIndex][(int) xIndex];
 
-		//if (value != 36 || value != 48 || value != 35 || value != 49)
-		//	return true;
-		return false;
+		if (value == 35 || value == 36 || value == 48 || value == 49)
+			return false;
+		return true;
 	}
 }

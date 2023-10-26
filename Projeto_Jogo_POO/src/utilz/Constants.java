@@ -1,19 +1,22 @@
 package utilz;
 
-public class Constants {
+import main.Game;
 
-	public static class Directions {
-		public static final int LEFT = 0;
-		public static final int UP = 1;
-		public static final int RIGHT = 2;
-		public static final int DOWN = 3;
+public class Constants {
+	
+	public static class UI {
+		public static class Buttons {
+			public static final int B_WIDTH_DEFAULT = 719;
+			public static final int B_HEIGHT_DEFAULT = 262;
+			public static final int B_WIDTH = (int) (96 * Game.SCALE);
+			public static final int B_HEIGHT = (int) (48 * Game.SCALE);
+		}
 	}
 
-	public static class PlayerConstants {
-		public static final int MOV_LEFT = 1;
-		public static final int MOV_UP = 2;
-		public static final int MOV_RIGHT = 3;
-		public static final int MOV_DOWN = 0;
-		
+	public static class Directions {
+		public static final int LEFT = 1;
+		public static final int UP = 2;
+		public static final int RIGHT = 3;
+		public static final int DOWN = 0;
 	}
 }

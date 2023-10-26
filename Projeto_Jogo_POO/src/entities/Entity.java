@@ -1,6 +1,7 @@
 package entities;
 
 import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
@@ -28,9 +29,8 @@ public abstract class Entity {
 	protected void initHitbox(float x, float y, float width, float height) {
 		hitbox = new Rectangle2D.Float(x, y, width, height);
 	}
-	
+
 	public Rectangle2D.Float getHitbox() {
 		return hitbox;
 	}
-
 }

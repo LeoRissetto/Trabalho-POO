@@ -9,6 +9,7 @@ import static main.Game.GAME_WIDTH;
 
 public class GamePanel extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	private Game game;
 
 	public GamePanel(Game game) {
@@ -34,4 +35,5 @@ public class GamePanel extends JPanel {
 	public Game getGame() {
 		return game;
 	}
+
 }

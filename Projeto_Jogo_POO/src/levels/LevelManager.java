@@ -22,7 +22,7 @@ public class LevelManager {
 		for (int j = 0; j < 8; j++)
 			for (int i = 0; i < 8; i++) {
 				int index = j * 8 + i;
-				levelSprite[index] = img.getSubimage(i * 16, j * 16, 16, 16);
+				levelSprite[index] = img.getSubimage(i * Game.TILES_DEFAULT_SIZE, j * Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE);
 			}
 	}
 
