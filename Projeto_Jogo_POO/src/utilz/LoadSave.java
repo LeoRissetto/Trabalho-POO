@@ -13,7 +13,7 @@ public class LoadSave {
 
 	public static final String PLAYER_ATLAS = "lolo_spritesheet.png";
 	public static final String LEVEL_ATLAS = "spritesheet-6.png";
-	public static final String LEVEL_ONE_DATA = "levelBase.png";
+	public static final String LEVEL_ONE_DATA = "levelBase2.png";
 	public static final String MENU_BUTTONS = "playButton.jpg";
 	public static final String MENU_BACKGROUND = "MenuScreen.png";
 
