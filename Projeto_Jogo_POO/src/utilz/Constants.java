@@ -6,12 +6,12 @@ public class Constants {
 	
 	public static class EnemyConstants {
 		public static final int CRABBY = 0;
+		public static final int SNAKE = 1;
+		public static final int BIXOV = 2;
+		public static final int BIXOR = 3;
 
 		public static final int IDLE = 0;
 		public static final int RUNNING = 1;
-		public static final int ATTACK = 2;
-		public static final int HIT = 3;
-		public static final int DEAD = 4;
 
 		public static final int CRABBY_WIDTH_DEFAULT = 16;
 		public static final int CRABBY_HEIGHT_DEFAULT = 16;
@@ -27,17 +27,16 @@ public class Constants {
 				case IDLE:
 					return 1;
 				case RUNNING:
-					return 6;
-				case ATTACK:
-					return 7;
-				case HIT:
-					return 4;
-				case DEAD:
-					return 5;
+					return 3;
 				}
+			case SNAKE:
+				case 3:
+					return 4;
 			}
 
 			return 0;
+			
+			
 
 		}
 
