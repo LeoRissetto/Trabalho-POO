@@ -10,11 +10,11 @@ import utilz.LoadSave;
 
 public class Player extends Entity {
 	private BufferedImage[][] animations;
-	private int aniTick, aniIndex, aniSpeed = 25;
+	private int aniTick, aniIndex, aniSpeed = 15;
 	private int playerAction = DOWN;
 	private boolean moving = false;
 	private boolean left, up, right, down;
-	private float playerSpeed = 1.5f;
+	private float playerSpeed = 1.2f;
 	private int[][] lvlData;
 
 	public Player(float x, float y, int width, int height) {
@@ -89,14 +89,26 @@ public class Player extends Entity {
 
 		float xSpeed = 0, ySpeed = 0;
 
-		if (left && !right)
+		if (left && !right) {
+			
 			xSpeed = -playerSpeed;
-		else if (right && !left)
+			ySpeed = 0;
+		}
+		else if (right && !left) {
+			
 			xSpeed = playerSpeed;
-		if (up && !down)
+			ySpeed = 0;
+		}
+		if (up && !down) {
+			
 			ySpeed = -playerSpeed;
-		else if (down && !up)
+			xSpeed = 0;
+		}
+		else if (down && !up) {
+			
 			ySpeed = playerSpeed;
+			xSpeed = 0;
+		}
 
 		if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, lvlData)) {
 			hitbox.x += xSpeed;

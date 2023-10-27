@@ -26,7 +26,7 @@ public class Menu extends State implements Statemethods {
 		menuIndex = 0;
 
 	}
-
+ 
 	private void loadAnimations() {
 
 		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
