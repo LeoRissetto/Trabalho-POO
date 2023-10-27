@@ -3,6 +3,8 @@ package gamestates;
 import java.awt.Graphics;
 
 import java.awt.event.KeyEvent;
+
+import entities.EnemyManager;
 import entities.Player;
 import levels.LevelManager;
 import main.Game;
@@ -10,7 +12,9 @@ import main.Game;
 public class Playing extends State implements Statemethods {
 	private Player player;
 	private LevelManager levelManager;
-
+	private EnemyManager enemyManager;
+	private int xLvloffset;
+	
 	public Playing(Game game) {
 		super(game);
 		initClasses();
@@ -18,7 +22,8 @@ public class Playing extends State implements Statemethods {
 
 	private void initClasses() {
 		levelManager = new LevelManager(game);
-		player = new Player(1 * Game.TILES_SIZE, 2 * Game.TILES_SIZE, (int) (16 * Game.SCALE), (int) (16 * Game.SCALE));
+		enemyManager = new EnemyManager(this);
+		player = new Player(200, 200, (int) (16 * Game.SCALE), (int) (16 * Game.SCALE));
 		player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
 
 	}
@@ -27,6 +32,7 @@ public class Playing extends State implements Statemethods {
 	public void update() {
 		levelManager.update();
 		player.update();
+		enemyManager.update(levelManager.getCurrentLevel().getLevelData());
 
 	}
 
@@ -34,6 +40,7 @@ public class Playing extends State implements Statemethods {
 	public void draw(Graphics g) {
 		levelManager.draw(g);
 		player.render(g);
+		enemyManager.draw(g, xLvloffset);
 
 	}
 
