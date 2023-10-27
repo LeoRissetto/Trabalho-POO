@@ -1,6 +1,7 @@
 package gamestates;
 
 import java.awt.Graphics;
+
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
@@ -11,13 +12,29 @@ import utilz.LoadSave;
 public class Menu extends State implements Statemethods {
 
 	private MenuButton[] buttons = new MenuButton[1];
+	private int aniTick, aniIndex, aniSpeed = 25;
 	private BufferedImage backgroundImg;
+	private BufferedImage[][] animations;
 	private int menuX, menuY, menuWidth, menuHeight;
+	private int menuIndex;
 
 	public Menu(Game game) {
 		super(game);
 		loadButtons();
+		loadAnimations();
 		loadBackground();
+		menuIndex = 0;
+
+	}
+
+	private void loadAnimations() {
+
+		BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
+
+		animations = new BufferedImage[4][5];
+		for (int j = 0; j < animations.length; j++)
+			for (int i = 0; i < animations[j].length; i++)
+				animations[j][i] = img.getSubimage(i * Game.TILES_DEFAULT_SIZE, j * Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE);
 
 	}
 
@@ -33,6 +50,7 @@ public class Menu extends State implements Statemethods {
 	private void loadButtons() {
 		buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (150 * Game.SCALE), 0, Gamestate.PLAYING);
 	}
+	
 
 	@Override
 	public void draw(Graphics g) {
@@ -41,12 +59,34 @@ public class Menu extends State implements Statemethods {
 
 		for (MenuButton mb : buttons)
 			mb.draw(g);
+		
+		if(menuIndex == 1)
+			g.drawImage(animations[0][aniIndex], 230, 640, (int) (12 * Game.SCALE), (int) (12 * Game.SCALE), null);
+		
+		if(menuIndex == 0)
+			g.drawImage(animations[0][aniIndex], 220, 595, (int) (12 * Game.SCALE), (int) (12 * Game.SCALE), null);
 	}
+
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_ENTER)
-			Gamestate.state = Gamestate.PLAYING;
+		
+		if(e.getKeyCode() == KeyEvent.VK_UP)
+			if(menuIndex == 1)
+				menuIndex--;
+		
+		if(e.getKeyCode() == KeyEvent.VK_DOWN)
+			if(menuIndex == 0)
+				menuIndex++;
+		
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			
+			if(menuIndex == 0)
+				Gamestate.state = Gamestate.PLAYING;
+			
+			else if(menuIndex == 1)
+				System.exit(0);
+		}
 
 	}
 
@@ -59,7 +99,18 @@ public class Menu extends State implements Statemethods {
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
+		aniTick++;
 		
+		if (aniTick >= aniSpeed) {
+			
+			aniTick = 0;
+			aniIndex++;
+			
+			if (aniIndex >= 4) {
+				
+				aniIndex = 0;
+			}
+		}
 	}
 
 }
