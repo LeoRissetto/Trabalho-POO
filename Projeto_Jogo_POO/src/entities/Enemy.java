@@ -41,9 +41,9 @@ public abstract class Enemy extends Entity {
 	private void updateMove(int[][] lvlData) {
 		switch (enemyState) {
 		case IDLE:
-			enemyState = RUNNING;
+			enemyState = STATE1;
 			break;
-		case RUNNING:
+		case STATE1:
 			float xSpeed = 0;
 
 			if (walkDir == LEFT)

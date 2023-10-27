@@ -5,33 +5,48 @@ import main.Game;
 public class Constants {
 	
 	public static class EnemyConstants {
-		public static final int CRABBY = 0;
-		public static final int SNAKE = 1;
-		public static final int BIXOV = 2;
-		public static final int BIXOR = 3;
+		public static final int CAVEIRA = 0;
+		public static final int SNAKE = 10;
+		public static final int BIXOV = 20;
+		public static final int BIXOR = 30;
 
 		public static final int IDLE = 0;
-		public static final int RUNNING = 1;
+		public static final int STATE1 = 1;
 
-		public static final int CRABBY_WIDTH_DEFAULT = 16;
-		public static final int CRABBY_HEIGHT_DEFAULT = 16;
+		public static final int ENEMY_WIDTH_DEFAULT = 16;
+		public static final int ENEMY_HEIGHT_DEFAULT = 16;
 
-		public static final int CRABBY_WIDTH = (int) (CRABBY_WIDTH_DEFAULT * Game.SCALE);
-		public static final int CRABBY_HEIGHT = (int) (CRABBY_HEIGHT_DEFAULT * Game.SCALE);
+		public static final int ENEMY_WIDTH = (int) (ENEMY_WIDTH_DEFAULT * Game.SCALE);
+		public static final int ENEMY_HEIGHT = (int) (ENEMY_HEIGHT_DEFAULT * Game.SCALE);
 
 		public static int GetSpriteAmount(int enemy_type, int enemy_state) {
 
 			switch (enemy_type) {
-			case CRABBY:
+			case CAVEIRA:
 				switch (enemy_state) {
 				case IDLE:
 					return 1;
-				case RUNNING:
+				case STATE1:
 					return 3;
 				}
 			case SNAKE:
-				case 3:
+				case 2:
 					return 4;
+			case BIXOR:
+				switch (enemy_state) {
+				case IDLE:
+					return 1;
+				case STATE1:
+					return 3;
+				}
+			case BIXOV:
+				switch (enemy_state) {
+				case IDLE:
+					return 1;
+				case STATE1:
+					return 3;
+				}
+					
 			}
 
 			return 0;

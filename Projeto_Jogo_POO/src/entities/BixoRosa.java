@@ -4,10 +4,10 @@ import static utilz.Constants.EnemyConstants.*;
 
 import main.Game;
 
-public class Snake extends Enemy {
+public class BixoRosa extends Enemy {
 
-	public Snake(float x, float y) {
-		super(x, y, ENEMY_WIDTH, ENEMY_HEIGHT, SNAKE);
+	public BixoRosa(float x, float y) {
+		super(x, y, ENEMY_WIDTH, ENEMY_HEIGHT, BIXOR);
 		initHitbox(x, y, (int) (15 * Game.SCALE), (int) (15 * Game.SCALE));
 
 	}
