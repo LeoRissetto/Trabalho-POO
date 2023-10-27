@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import entities.Crabby;
+import entities.Snake;
 import main.Game;
 import static utilz.Constants.EnemyConstants.*;
 
@@ -20,6 +21,7 @@ public class LoadSave {
 	public static final String MENU_BUTTONS = "playButton.jpg";
 	public static final String MENU_BACKGROUND = "MenuScreen.png";
 	public static final String CRABBY_SPRITE = "caveira.png";
+	public static final String SNAKE_SPRITE = "Snake.png";
 
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;
@@ -48,6 +50,20 @@ public class LoadSave {
 				int value = color.getGreen();
 				if (value == CRABBY)
 					list.add(new Crabby(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
+			}
+		return list;
+
+	}
+	
+	public static ArrayList<Snake> GetSnakes() {
+		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
+		ArrayList<Snake> list = new ArrayList<>();
+		for (int j = 0; j < img.getHeight(); j++)
+			for (int i = 0; i < img.getWidth(); i++) {
+				Color color = new Color(img.getRGB(i, j));
+				int value = color.getGreen();
+				if (value == SNAKE)
+					list.add(new Snake(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
 			}
 		return list;
 

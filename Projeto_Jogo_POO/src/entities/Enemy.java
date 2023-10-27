@@ -31,7 +31,9 @@ public abstract class Enemy extends Entity {
 	}
 
 	public void update(int[][] lvlData) {
-		updateMove(lvlData);
+		if(enemyType == 0) {
+			updateMove(lvlData);
+		}
 		updateAnimationTick();
 
 	}
