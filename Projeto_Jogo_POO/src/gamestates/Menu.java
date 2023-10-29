@@ -72,12 +72,10 @@ public class Menu extends State implements Statemethods {
 	public void keyPressed(KeyEvent e) {
 		
 		if(e.getKeyCode() == KeyEvent.VK_UP)
-			if(menuIndex == 1)
-				menuIndex--;
+			menuIndex = 0;
 		
 		if(e.getKeyCode() == KeyEvent.VK_DOWN)
-			if(menuIndex == 0)
-				menuIndex++;
+			menuIndex = 1;
 		
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			

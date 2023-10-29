@@ -128,9 +128,6 @@ public class Player extends Entity {
 		down = false;
 	}
 
-	public void setAttacking(boolean attacking) {
-	}
-
 	public boolean isLeft() {
 		return left;
 	}

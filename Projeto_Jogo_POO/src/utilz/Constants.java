@@ -19,4 +19,43 @@ public class Constants {
 		public static final int RIGHT = 3;
 		public static final int DOWN = 0;
 	}
+	
+	public static class EnemyConstants {
+		public static final int SNAKE = 0;
+		public static final int CAVEIRA = 10;
+		public static final int BIXO_VERDE = 20;
+		public static final int BIXO_ROSA = 30;
+
+		public static final int IDLE = 0;
+		public static final int MOVING = 1;
+
+		public static int GetSpriteAmount(int enemy_type, int enemy_state) {
+
+			switch (enemy_type) {
+			
+			case CAVEIRA:
+				switch (enemy_state) {
+				
+					case IDLE:
+						return 1;
+					
+					case MOVING:
+						return 3;
+				}
+				
+			case BIXO_VERDE:
+				switch(enemy_state) {
+				
+					case IDLE:
+						return 3;
+					
+					case MOVING:
+						return 1;
+				}
+			}
+
+			return 0;
+		}
+
+	}
 }

@@ -3,13 +3,17 @@ package gamestates;
 import java.awt.Graphics;
 
 import java.awt.event.KeyEvent;
+
+import entities.EnemyManager;
 import entities.Player;
 import levels.LevelManager;
 import main.Game;
 
 public class Playing extends State implements Statemethods {
-	private Player player;
+	
+	private static Player player;
 	private LevelManager levelManager;
+	private EnemyManager enemyManager;
 
 	public Playing(Game game) {
 		super(game);
@@ -18,6 +22,7 @@ public class Playing extends State implements Statemethods {
 
 	private void initClasses() {
 		levelManager = new LevelManager(game);
+		enemyManager = new EnemyManager(this);
 		player = new Player(200, 200, (int) (16 * Game.SCALE), (int) (16 * Game.SCALE));
 		player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
 
@@ -25,15 +30,17 @@ public class Playing extends State implements Statemethods {
 
 	@Override
 	public void update() {
+		
 		levelManager.update();
 		player.update();
-
+		enemyManager.update();
 	}
 
 	@Override
 	public void draw(Graphics g) {
 		levelManager.draw(g);
 		player.render(g);
+		enemyManager.draw(g);
 
 	}
 
@@ -82,7 +89,7 @@ public class Playing extends State implements Statemethods {
 		player.resetDirBooleans();
 	}
 
-	public Player getPlayer() {
+	public static Player getPlayer() {
 		return player;
 	}
 
