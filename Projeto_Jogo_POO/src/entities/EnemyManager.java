@@ -31,16 +31,16 @@ public class EnemyManager {
 		bixosRosa = LoadSave.GetBixosRosa();
 	}
 
-	public void update() {
+	public void update(int[][] lvlData) {
 		
 		for (Snake s : snakes)
 			s.update();
 		
 		for (Caveira c : caveiras)
-			c.update();
+			c.update(lvlData);
 		
 		for (BixoVerde bv : bixosVerde)
-			bv.update();
+			bv.update(lvlData);
 		
 		for (BixoRosa br : bixosRosa)
 			br.update();
@@ -69,7 +69,7 @@ public class EnemyManager {
 	private void drawBixosVerde(Graphics g) {
 		
 		for (BixoVerde bv : bixosVerde)
-			g.drawImage(bixoVerdeArr[bv.getEnemyAction()][bv.getAniIndex()], (int) bv.getHitbox().x, (int) bv.getHitbox().y, bv.width, bv.height, null);
+			g.drawImage(bixoVerdeArr[bv.getAniIndex()][bv.getWalkDir()], (int) bv.getHitbox().x, (int) bv.getHitbox().y, bv.width, bv.height, null);
 	}
 	
 	private void drawBixosRosa(Graphics g) {
@@ -96,7 +96,7 @@ public class EnemyManager {
 			for(int i = 0; i < bixoVerdeArr[j].length; i++)
 				bixoVerdeArr[j][i] = temp.getSubimage(j * Game.TILES_DEFAULT_SIZE, i * Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE);
 		
-		bixoRosaArr = new BufferedImage[2][4];
+		bixoRosaArr = new BufferedImage[4][2];
 		temp = LoadSave.GetSpriteAtlas(LoadSave.BIXO_ROSA_SPRITE);
 		for (int j = 0; j < bixoRosaArr.length; j++)
 			for(int i = 0; i < bixoRosaArr[j].length; i++)

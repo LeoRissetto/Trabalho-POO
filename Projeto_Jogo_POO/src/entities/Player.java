@@ -89,14 +89,23 @@ public class Player extends Entity {
 
 		float xSpeed = 0, ySpeed = 0;
 
-		if (left && !right)
+		if (left && !right) {
 			xSpeed = -playerSpeed;
-		else if (right && !left)
+			ySpeed = 0;
+		}
+		else if (right && !left) {
 			xSpeed = playerSpeed;
-		if (up && !down)
+			ySpeed = 0;
+		}
+
+		if (up && !down) {
 			ySpeed = -playerSpeed;
-		else if (down && !up)
+			xSpeed = 0;
+		}
+		else if (down && !up) {
 			ySpeed = playerSpeed;
+			xSpeed = 0;
+		}
 
 		if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, lvlData)) {
 			hitbox.x += xSpeed;
@@ -128,32 +137,16 @@ public class Player extends Entity {
 		down = false;
 	}
 
-	public boolean isLeft() {
-		return left;
-	}
-
 	public void setLeft(boolean left) {
 		this.left = left;
-	}
-
-	public boolean isUp() {
-		return up;
 	}
 
 	public void setUp(boolean up) {
 		this.up = up;
 	}
 
-	public boolean isRight() {
-		return right;
-	}
-
 	public void setRight(boolean right) {
 		this.right = right;
-	}
-
-	public boolean isDown() {
-		return down;
 	}
 
 	public void setDown(boolean down) {

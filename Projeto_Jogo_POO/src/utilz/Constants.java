@@ -47,10 +47,10 @@ public class Constants {
 				switch(enemy_state) {
 				
 					case IDLE:
-						return 3;
+						return 4;
 					
 					case MOVING:
-						return 1;
+						return 2;
 				}
 			}
 

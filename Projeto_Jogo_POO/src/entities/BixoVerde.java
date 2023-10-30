@@ -1,30 +1,32 @@
 package entities;
 
-import static utilz.Constants.Directions.DOWN;
-import static utilz.Constants.Directions.LEFT;
-import static utilz.Constants.Directions.RIGHT;
-import static utilz.Constants.Directions.UP;
+import static utilz.Constants.Directions.*;
 import static utilz.Constants.EnemyConstants.*;
+import static utilz.HelpMethods.CanMoveHere;
 
 import main.Game;
 
 public class BixoVerde extends Enemy {
 	
-	private int enemyAction;
-	private boolean left, right, up, down;
-	private boolean moving = false;
+	private float walkSpeed = 0.35f * Game.SCALE;
+	private int walkDir = UP;
 
 	public BixoVerde(float x, float y) {
 		
-		super(x, y, Game.TILES_SIZE, Game.TILES_SIZE, CAVEIRA);
+		super(x, y, Game.TILES_SIZE, Game.TILES_SIZE, BIXO_VERDE);
+		enemyState = MOVING;
 	}
 	
-	public void update() {
+public void update(int[][] lvlData) {
 		
-		updateAnimationTick();
-		setAnimation();
+		updateMove(lvlData);
+		
+		if(enemyState == MOVING)
+			updateAnimationTick();
+		else
+			sleeping();
 	}
-	
+
 	private void updateAnimationTick() {
 		
 		aniTick++;
@@ -41,35 +43,74 @@ public class BixoVerde extends Enemy {
 		}
 	}
 	
-	private void setAnimation() {
+	private void sleeping() {
 		
-		int startAni = enemyAction;
-
-		if (left)
-			enemyAction = LEFT;
+		aniTick++;
 		
-		if(right)
-			enemyAction = RIGHT;
-		
-		if (up)
-			enemyAction = UP;
-		
-		if(down)
-			enemyAction = DOWN;
-
-		if (startAni != enemyAction)
-			resetAniTick();
+		if (aniTick >= aniSpeed + 100) {
+			
+			aniTick = 0;
+			aniIndex++;
+			
+			if (aniIndex >= GetSpriteAmount(enemyType, enemyState)) {
+				
+				aniIndex = 2;
+			}
+		}
 	}
 	
-	private void resetAniTick() {
+	private void updateMove(int[][] lvlData) {
 		
-		aniTick = 0;
-		aniIndex = 0;
+		switch (enemyState) {
+		
+			case IDLE:
+				break;
+				
+			case MOVING:
+				
+				float xSpeed = 0;
+				float ySpeed = 0;
+				
+				if (walkDir == LEFT)
+					xSpeed = -walkSpeed;
+				
+				else if(walkDir == RIGHT)
+					xSpeed = walkSpeed;
+				
+				else if(walkDir == UP)
+					ySpeed = -walkSpeed;
+				
+				else
+					ySpeed = walkSpeed;
+
+				if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, lvlData)) {
+					
+					hitbox.x += xSpeed;
+					hitbox.y += ySpeed;
+				}
+			
+				else
+				    changeWalkDir();
+		}
 	}
 
-	public int getEnemyAction() {
+	private void changeWalkDir() {
 		
-		return enemyAction;
+		if (walkDir == LEFT)
+			walkDir = RIGHT;
+		
+		else if(walkDir == RIGHT)
+			walkDir = LEFT;
+		
+		else if(walkDir == DOWN)
+			walkDir = UP;
+		
+		else
+			walkDir = DOWN;
+	}
+	
+	public int getWalkDir() {
+		return walkDir;
 	}
 	
 }
