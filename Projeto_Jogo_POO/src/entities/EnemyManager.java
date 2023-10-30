@@ -56,26 +56,34 @@ public class EnemyManager {
 
 	private void drawSnakes(Graphics g) {
 		
-		for (Snake s : snakes)
+		for (Snake s : snakes) {
 			g.drawImage(snakeArr[s.getAniIndex()], (int) s.getHitbox().x, (int) s.getHitbox().y, s.width, s.height, null);
+			s.drawHitbox(g);
+		}
 	}
 	
 	private void drawCaveiras(Graphics g) {
 		
-		for (Caveira c : caveiras)
+		for (Caveira c : caveiras) {
 			g.drawImage(caveiraArr[c.getAniIndex()], (int) c.getHitbox().x, (int) c.getHitbox().y, c.width, c.height, null);
+			c.drawHitbox(g);
+		}
 	}
 	
 	private void drawBixosVerde(Graphics g) {
 		
-		for (BixoVerde bv : bixosVerde)
+		for (BixoVerde bv : bixosVerde) {
 			g.drawImage(bixoVerdeArr[bv.getAniIndex()][bv.getWalkDir()], (int) bv.getHitbox().x, (int) bv.getHitbox().y, bv.width, bv.height, null);
+			bv.drawHitbox(g);
+		}
 	}
 	
 	private void drawBixosRosa(Graphics g) {
 		
-		for (BixoRosa br : bixosRosa)
-			g.drawImage(bixoRosaArr[br.getAniIndex()][br.getEnemyAction()], (int) br.getHitbox().x, (int) br.getHitbox().y, br.width, br.height, null);
+		for (BixoRosa br : bixosRosa) {
+			g.drawImage(bixoRosaArr[br.getAniIndex()][br.getState()], (int) br.getHitbox().x, (int) br.getHitbox().y, br.width, br.height, null);
+			br.drawHitbox(g);
+		}
 	}
 	
 	private void loadEnemyImgs() {

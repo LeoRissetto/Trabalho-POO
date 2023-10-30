@@ -1,27 +1,27 @@
 package entities;
 
 import static utilz.Constants.EnemyConstants.*;
+
 import static utilz.Constants.Directions.*;
 import static utilz.HelpMethods.*;
+import static utilz.Constants.ANI_SPEED;
 
 import main.Game;
 
 public class Caveira extends Enemy {
-	
-	private float walkSpeed = 0.35f * Game.SCALE;
-	private int walkDir = LEFT;
 
 	public Caveira(float x, float y) {
 		
 		super(x, y, Game.TILES_SIZE, Game.TILES_SIZE, CAVEIRA);
-		enemyState = MOVING;
+		state = MOVING;
+		walkDir = LEFT;
 	}
 	
 	public void update(int[][] lvlData) {
 		
 		updateMove(lvlData);
 		
-		if(enemyState == MOVING)
+		if(state == MOVING)
 			updateAnimationTick();
 	}
 	
@@ -29,12 +29,12 @@ public class Caveira extends Enemy {
 		
 		aniTick++;
 		
-		if (aniTick >= aniSpeed) {
+		if (aniTick >= ANI_SPEED) {
 			
 			aniTick = 0;
 			aniIndex++;
 			
-			if (aniIndex >= GetSpriteAmount(enemyType, enemyState)) {
+			if (aniIndex >= GetSpriteAmount(enemyType, state)) {
 				
 				aniIndex = 0;
 			}
@@ -43,7 +43,7 @@ public class Caveira extends Enemy {
 	
 	private void updateMove(int[][] lvlData) {
 		
-		switch (enemyState) {
+		switch (state) {
 		
 			case IDLE:
 				break;

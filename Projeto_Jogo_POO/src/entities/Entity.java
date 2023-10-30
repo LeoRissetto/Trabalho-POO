@@ -10,6 +10,11 @@ public abstract class Entity {
 	protected float x, y;
 	protected int width, height;
 	protected Rectangle2D.Float hitbox;
+	protected int state;
+	protected int aniIndex, aniTick;
+	protected int walkDir;
+	
+	protected float walkSpeed;
 
 	public Entity(float x, float y, int width, int height) {
 		this.x = x;
@@ -26,11 +31,24 @@ public abstract class Entity {
 
 	}
 
-	protected void initHitbox(float x, float y, float width, float height) {
+	protected void initHitbox(float width, float height) {
 		hitbox = new Rectangle2D.Float(x, y, width, height);
 	}
 
 	public Rectangle2D.Float getHitbox() {
 		return hitbox;
 	}
+
+	public int getAniIndex() {
+		return aniIndex;
+	}
+
+	public int getState() {
+		return state;
+	}
+	
+	public int getWalkDir() {
+		return walkDir;
+	}
+	
 }

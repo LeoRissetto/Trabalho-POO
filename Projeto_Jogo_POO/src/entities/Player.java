@@ -1,6 +1,7 @@
 package entities;
 
 import static utilz.Constants.Directions.*;
+import static utilz.Constants.ANI_SPEED;
 import static utilz.HelpMethods.CanMoveHere;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -9,18 +10,18 @@ import main.Game;
 import utilz.LoadSave;
 
 public class Player extends Entity {
+	
 	private BufferedImage[][] animations;
-	private int aniTick, aniIndex, aniSpeed = 25;
-	private int playerAction = DOWN;
 	private boolean moving = false;
 	private boolean left, up, right, down;
-	private float playerSpeed = 1.5f;
 	private int[][] lvlData;
 
 	public Player(float x, float y, int width, int height) {
 		super(x, y, width, height);
 		loadAnimations();
-		initHitbox(x, y, 15 * Game.SCALE, 15 * Game.SCALE);
+		initHitbox(15 * Game.SCALE, 15 * Game.SCALE);
+		walkDir = DOWN;
+		this.walkSpeed = 0.4f * Game.SCALE;
 
 	}
 
@@ -38,7 +39,7 @@ public class Player extends Entity {
 	}
 
 	public void render(Graphics g) {
-		g.drawImage(animations[playerAction][aniIndex], (int) hitbox.x, (int) hitbox.y, width, height, null);
+		g.drawImage(animations[walkDir][aniIndex], (int) hitbox.x, (int) hitbox.y, width, height, null);
 		drawHitbox(g);
 	}
 
@@ -46,7 +47,7 @@ public class Player extends Entity {
 		
 		aniTick++;
 		
-		if (aniTick >= aniSpeed) {
+		if (aniTick >= ANI_SPEED) {
 			
 			aniTick = 0;
 			aniIndex++;
@@ -59,21 +60,21 @@ public class Player extends Entity {
 	}
 
 	private void setAnimation() {
-		int startAni = playerAction;
+		int startAni = walkDir;
 
 		if (left)
-			playerAction = LEFT;
+			walkDir = LEFT;
 		
 		if(right)
-			playerAction = RIGHT;
+			walkDir = RIGHT;
 		
 		if (up)
-			playerAction = UP;
+			walkDir = UP;
 		
 		if(down)
-			playerAction = DOWN;
+			walkDir = DOWN;
 
-		if (startAni != playerAction)
+		if (startAni != walkDir)
 			resetAniTick();
 	}
 
@@ -90,20 +91,20 @@ public class Player extends Entity {
 		float xSpeed = 0, ySpeed = 0;
 
 		if (left && !right) {
-			xSpeed = -playerSpeed;
+			xSpeed = -walkSpeed;
 			ySpeed = 0;
 		}
 		else if (right && !left) {
-			xSpeed = playerSpeed;
+			xSpeed = walkSpeed;
 			ySpeed = 0;
 		}
 
 		if (up && !down) {
-			ySpeed = -playerSpeed;
+			ySpeed = -walkSpeed;
 			xSpeed = 0;
 		}
 		else if (down && !up) {
-			ySpeed = playerSpeed;
+			ySpeed = walkSpeed;
 			xSpeed = 0;
 		}
 

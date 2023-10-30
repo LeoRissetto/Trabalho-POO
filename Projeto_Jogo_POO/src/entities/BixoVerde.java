@@ -1,27 +1,26 @@
 package entities;
 
 import static utilz.Constants.Directions.*;
+import static utilz.Constants.ANI_SPEED;
 import static utilz.Constants.EnemyConstants.*;
 import static utilz.HelpMethods.CanMoveHere;
 
 import main.Game;
 
 public class BixoVerde extends Enemy {
-	
-	private float walkSpeed = 0.35f * Game.SCALE;
-	private int walkDir = UP;
 
 	public BixoVerde(float x, float y) {
 		
 		super(x, y, Game.TILES_SIZE, Game.TILES_SIZE, BIXO_VERDE);
-		enemyState = MOVING;
+		state = MOVING;
+		walkDir = UP;
 	}
 	
-public void update(int[][] lvlData) {
+	public void update(int[][] lvlData) {
 		
 		updateMove(lvlData);
 		
-		if(enemyState == MOVING)
+		if(state == MOVING)
 			updateAnimationTick();
 		else
 			sleeping();
@@ -31,12 +30,12 @@ public void update(int[][] lvlData) {
 		
 		aniTick++;
 		
-		if (aniTick >= aniSpeed) {
+		if (aniTick >= ANI_SPEED) {
 			
 			aniTick = 0;
 			aniIndex++;
 			
-			if (aniIndex >= GetSpriteAmount(enemyType, enemyState)) {
+			if (aniIndex >= GetSpriteAmount(enemyType, state)) {
 				
 				aniIndex = 0;
 			}
@@ -47,12 +46,12 @@ public void update(int[][] lvlData) {
 		
 		aniTick++;
 		
-		if (aniTick >= aniSpeed + 100) {
+		if (aniTick >= ANI_SPEED + 100) {
 			
 			aniTick = 0;
 			aniIndex++;
 			
-			if (aniIndex >= GetSpriteAmount(enemyType, enemyState)) {
+			if (aniIndex >= GetSpriteAmount(enemyType, state)) {
 				
 				aniIndex = 2;
 			}
@@ -61,7 +60,7 @@ public void update(int[][] lvlData) {
 	
 	private void updateMove(int[][] lvlData) {
 		
-		switch (enemyState) {
+		switch (state) {
 		
 			case IDLE:
 				break;
@@ -107,10 +106,6 @@ public void update(int[][] lvlData) {
 		
 		else
 			walkDir = DOWN;
-	}
-	
-	public int getWalkDir() {
-		return walkDir;
 	}
 	
 }
