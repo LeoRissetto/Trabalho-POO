@@ -13,15 +13,18 @@ public abstract class Entity {
 	protected int state;
 	protected int aniIndex, aniTick;
 	protected int walkDir;
+	protected boolean isAlive;
 	
 	protected float walkSpeed;
+	
+	protected int tileX, tileY;
 
 	public Entity(float x, float y, int width, int height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-
+		isAlive = true;
 	}
 
 	protected void drawHitbox(Graphics g) {

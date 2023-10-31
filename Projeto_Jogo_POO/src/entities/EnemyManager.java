@@ -1,6 +1,7 @@
 package entities;
 
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -12,10 +13,10 @@ public class EnemyManager {
 
 	private BufferedImage[] snakeArr, caveiraArr;
 	private BufferedImage[][] bixoVerdeArr, bixoRosaArr;
-	private ArrayList<Snake> snakes = new ArrayList<>();
-	private ArrayList<Caveira> caveiras = new ArrayList<>();
-	private ArrayList<BixoVerde> bixosVerde = new ArrayList<>();
-	private ArrayList<BixoRosa> bixosRosa = new ArrayList<>();
+	private static ArrayList<Snake> snakes = new ArrayList<>();
+	private static ArrayList<Caveira> caveiras = new ArrayList<>();
+	private static ArrayList<BixoVerde> bixosVerde = new ArrayList<>();
+	private static ArrayList<BixoRosa> bixosRosa = new ArrayList<>();
 
 	public EnemyManager(Playing playing) {
 		
@@ -81,7 +82,7 @@ public class EnemyManager {
 	private void drawBixosRosa(Graphics g) {
 		
 		for (BixoRosa br : bixosRosa) {
-			g.drawImage(bixoRosaArr[br.getAniIndex()][br.getState()], (int) br.getHitbox().x, (int) br.getHitbox().y, br.width, br.height, null);
+			g.drawImage(bixoRosaArr[br.getWalkDir()][br.getState()], (int) br.getHitbox().x, (int) br.getHitbox().y, br.width, br.height, null);
 			br.drawHitbox(g);
 		}
 	}
@@ -110,6 +111,25 @@ public class EnemyManager {
 			for(int i = 0; i < bixoRosaArr[j].length; i++)
 				bixoRosaArr[j][i] = temp.getSubimage(j * Game.TILES_DEFAULT_SIZE, i * Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE);
 		
+	}
+	
+	public static boolean checkEnemyHit(Rectangle2D hitbox, float xSpeed, float ySpeed) {
+		
+		boolean temp = false;
+		
+		for (Snake s : snakes)
+			if(s.getHitbox().intersects(hitbox.getX() + xSpeed, hitbox.getY() + ySpeed, hitbox.getWidth(), hitbox.getHeight()))
+				temp = true;
+		
+		for (BixoVerde bv : bixosVerde)
+			if(bv.getHitbox().intersects(hitbox.getX() + xSpeed, hitbox.getY() + ySpeed, hitbox.getWidth(), hitbox.getHeight()))
+				temp = true;
+		
+		for (BixoRosa br : bixosRosa)
+			if(br.getHitbox().intersects(hitbox.getX() + xSpeed, hitbox.getY() + ySpeed, hitbox.getWidth(), hitbox.getHeight()))
+				temp = true;
+		
+		return temp;
 	}
 	
 }

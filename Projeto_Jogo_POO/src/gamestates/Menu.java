@@ -61,10 +61,10 @@ public class Menu extends State implements Statemethods {
 			mb.draw(g);
 		
 		if(menuIndex == 1)
-			g.drawImage(animations[0][aniIndex], 230, 640, (int) (12 * Game.SCALE), (int) (12 * Game.SCALE), null);
+			g.drawImage(animations[0][aniIndex], (int) (60 * Game.SCALE), (int) (182 * Game.SCALE), (int) (12 * Game.SCALE), (int) (12 * Game.SCALE), null);
 		
 		if(menuIndex == 0)
-			g.drawImage(animations[0][aniIndex], 220, 595, (int) (12 * Game.SCALE), (int) (12 * Game.SCALE), null);
+			g.drawImage(animations[0][aniIndex], (int) (60 * Game.SCALE), (int) (170 * Game.SCALE), (int) (12 * Game.SCALE), (int) (12 * Game.SCALE), null);
 	}
 
 

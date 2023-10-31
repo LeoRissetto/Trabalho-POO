@@ -1,10 +1,12 @@
 package entities;
 
 import static utilz.Constants.Directions.*;
+
 import static utilz.Constants.ANI_SPEED;
 import static utilz.HelpMethods.CanMoveHere;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import static entities.EnemyManager.checkEnemyHit;
 
 import main.Game;
 import utilz.LoadSave;
@@ -20,6 +22,8 @@ public class Player extends Entity {
 		super(x, y, width, height);
 		loadAnimations();
 		initHitbox(15 * Game.SCALE, 15 * Game.SCALE);
+		tileY = (int) (hitbox.y / Game.TILES_SIZE);
+		tileX = (int) (hitbox.x / Game.TILES_SIZE);
 		walkDir = DOWN;
 		this.walkSpeed = 0.4f * Game.SCALE;
 
@@ -29,8 +33,12 @@ public class Player extends Entity {
 		
 		updatePos();
 		
-		if(moving)
+		if(moving) {
+		
 			updateAnimationTick();
+			tileY = (int) (hitbox.y / Game.TILES_SIZE);
+			tileX = (int) (hitbox.x / Game.TILES_SIZE);
+		}	
 		
 		else
 			aniIndex = 2;
@@ -108,7 +116,7 @@ public class Player extends Entity {
 			xSpeed = 0;
 		}
 
-		if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, lvlData)) {
+		if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, lvlData) && !checkEnemyHit(hitbox, xSpeed, ySpeed)) {
 			hitbox.x += xSpeed;
 			hitbox.y += ySpeed;
 			moving = true;
@@ -152,5 +160,14 @@ public class Player extends Entity {
 
 	public void setDown(boolean down) {
 		this.down = down;
+	}
+
+	public boolean isAlive() {
+		return isAlive;
+	}
+
+	public void setAlive(boolean isAlive) {
+		this.isAlive = isAlive;
+		System.out.println("Morreu");
 	}
 }

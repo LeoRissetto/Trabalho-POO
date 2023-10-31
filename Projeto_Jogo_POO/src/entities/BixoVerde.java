@@ -13,7 +13,7 @@ public class BixoVerde extends Enemy {
 		
 		super(x, y, Game.TILES_SIZE, Game.TILES_SIZE, BIXO_VERDE);
 		state = MOVING;
-		walkDir = UP;
+		walkDir = LEFT;
 	}
 	
 	public void update(int[][] lvlData) {
@@ -69,6 +69,9 @@ public class BixoVerde extends Enemy {
 				
 				float xSpeed = 0;
 				float ySpeed = 0;
+				
+				if(checkHitPlayer(hitbox, xSpeed, ySpeed))
+					state = IDLE;
 				
 				if (walkDir == LEFT)
 					xSpeed = -walkSpeed;

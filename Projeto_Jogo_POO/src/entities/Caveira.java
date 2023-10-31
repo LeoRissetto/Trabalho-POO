@@ -2,8 +2,12 @@ package entities;
 
 import static utilz.Constants.EnemyConstants.*;
 
+
 import static utilz.Constants.Directions.*;
 import static utilz.HelpMethods.*;
+
+import gamestates.Playing;
+
 import static utilz.Constants.ANI_SPEED;
 
 import main.Game;
@@ -23,6 +27,9 @@ public class Caveira extends Enemy {
 		
 		if(state == MOVING)
 			updateAnimationTick();
+		
+		if(checkHitPlayer(hitbox, 0, 0))
+			Playing.getPlayer().setAlive(false);
 	}
 	
 	private void updateAnimationTick() {
