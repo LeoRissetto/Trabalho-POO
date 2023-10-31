@@ -70,8 +70,6 @@ public class BixoVerde extends Enemy {
 				float xSpeed = 0;
 				float ySpeed = 0;
 				
-				if(checkHitPlayer(hitbox, xSpeed, ySpeed))
-					state = IDLE;
 				
 				if (walkDir == LEFT)
 					xSpeed = -walkSpeed;
@@ -85,12 +83,15 @@ public class BixoVerde extends Enemy {
 				else
 					ySpeed = walkSpeed;
 
-				if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, lvlData)) {
+				if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, lvlData) && !checkHitPlayer(hitbox, xSpeed, ySpeed)) {
 					
 					hitbox.x += xSpeed;
 					hitbox.y += ySpeed;
 				}
 			
+				else if(checkHitPlayer(hitbox, xSpeed, ySpeed))
+					state = IDLE;
+				
 				else
 				    changeWalkDir();
 		}
