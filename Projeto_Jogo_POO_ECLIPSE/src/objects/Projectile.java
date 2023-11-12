@@ -21,15 +21,19 @@ public class Projectile {
         switch(direction) {
             case UP: 
                 hitbox.y -= 0.50f * Game.SCALE;
+                break;
                 
             case DOWN:
                 hitbox.y += 0.50f * Game.SCALE;
+                break;
                 
             case LEFT:
                 hitbox.x -= 0.50f * Game.SCALE;
+                break;
                 
             case RIGHT:
                 hitbox.x += 0.50f * Game.SCALE;
+                break;
         }
     }
     

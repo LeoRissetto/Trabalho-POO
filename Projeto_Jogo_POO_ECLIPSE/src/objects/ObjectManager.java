@@ -77,6 +77,7 @@ public class ObjectManager {
         drawPortas(g);
         drawBaus(g);
         drawFogos(g);
+        drawBolas(g);
     }
     
     private void drawCoracoes(Graphics g) {
@@ -210,7 +211,8 @@ public class ObjectManager {
     }
 
     private void updateBolas(int[][] lvlData, Player player) {
-        
+        for(Bola b : bolas)
+            b.updatePos();
     }
     
     public static void addBola(float x, float y, int direction) {
@@ -221,8 +223,12 @@ public class ObjectManager {
     private void updateFogos(int[][] lvlData, Player player) {
         
         for(Fogo f : fogos)
-            if(f.isActive())
+            if(f.isActive()) {
                 f.updatePos();
+                if(checkHitPlayer(f.getHitbox(), 0, 0))
+                        Playing.getPlayer().setAlive(false);
+            }
+        
     }
     
     public static void addFogo(float x, float y, int direction) {
@@ -234,7 +240,19 @@ public class ObjectManager {
         
         for(Fogo f : fogos)
             if(f.isActive())
-                g.drawImage(fogoArr[1][0], (int) f.getHitbox().x, (int) f.getHitbox().y, Game.TILES_SIZE, Game.TILES_SIZE, null);
+                g.drawImage(fogoArr[3][0], (int) f.getHitbox().x, (int) f.getHitbox().y, Game.TILES_SIZE, Game.TILES_SIZE, null);
+    }
+    
+    protected boolean checkHitPlayer(Rectangle2D hitbox, float xSpeed, float ySpeed) {
+		
+        return Playing.getPlayer().getHitbox().intersects(hitbox.getX() + xSpeed, hitbox.getY() + ySpeed, hitbox.getWidth(), hitbox.getHeight());
+    }
+
+    private void drawBolas(Graphics g) {
+        
+        for(Bola b : bolas)
+            if(b.isActive())
+                g.drawImage(bola, (int) b.getHitbox().x, (int) b.getHitbox().y, Game.TILES_SIZE, Game.TILES_SIZE, null);
     }
     
 }

@@ -156,11 +156,26 @@ public class EnemyManager {
 	for (Caveira c : caveiras)
             c.resetEnemy();
 		
-		for (BixoVerde bv : bixosVerde)
+	for (BixoVerde bv : bixosVerde)
             bv.resetEnemy();
 		
-		for (BixoRosa br : bixosRosa)
+	for (BixoRosa br : bixosRosa)
             br.resetEnemy();
+    }
+    
+    public void killAllEnemies() {
+        
+        for (Snake s : snakes)
+            s.setActive(false);
+		
+	for (Caveira c : caveiras)
+            c.setActive(false);
+		
+	for (BixoVerde bv : bixosVerde)
+            bv.setActive(false);
+		
+	for (BixoRosa br : bixosRosa)
+            br.setActive(false);
     }
 	
 }

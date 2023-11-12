@@ -181,7 +181,6 @@ public class Player extends Entity {
 
 	public void setAlive(boolean isAlive) {
 		this.isAlive = isAlive;
-		System.out.println("Morreu");
 	}
         
         public float getXSpeed() {

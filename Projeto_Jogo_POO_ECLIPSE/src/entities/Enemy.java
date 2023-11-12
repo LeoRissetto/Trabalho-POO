@@ -14,7 +14,7 @@ public abstract class Enemy extends Entity {
 		
 		super(x, y, width, height);
 		this.enemyType = enemyType;
-		initHitbox((float) (width*0.9), (float) (height*0.9));
+		initHitbox((float) (width), (float) (height));
 		this.walkSpeed = 0.35f * Game.SCALE;
                 active = true;
 	}
@@ -32,5 +32,9 @@ public abstract class Enemy extends Entity {
         
         public boolean isActive() {
             return active;
+        }
+
+        public void setActive(boolean active) {
+            this.active = active;
         }
 }

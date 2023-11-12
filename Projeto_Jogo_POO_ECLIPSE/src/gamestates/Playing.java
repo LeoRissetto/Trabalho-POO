@@ -10,6 +10,9 @@ import levels.LevelManager;
 import objects.ObjectManager;
 import main.Game;
 
+import static objects.ObjectManager.openDoor;
+import static objects.ObjectManager.addBola;
+
 public class Playing extends State implements Statemethods {
 	
 	private static Player player;
@@ -43,6 +46,9 @@ public class Playing extends State implements Statemethods {
                     setLevelCompleted(true);
                     player.setAlive(true);
                 }
+                
+                if(openDoor())
+                    enemyManager.killAllEnemies();
 		
 		levelManager.update();
 		player.update();
@@ -78,7 +84,7 @@ public class Playing extends State implements Statemethods {
 		case KeyEvent.VK_W -> player.setUp(false);
 		case KeyEvent.VK_A -> player.setLeft(false);
 		case KeyEvent.VK_S -> player.setDown(false);
-		case KeyEvent.VK_D -> player.setRight(false);
+		case KeyEvent.VK_D -> player.setRight(false); 
 		}
 		
 	}

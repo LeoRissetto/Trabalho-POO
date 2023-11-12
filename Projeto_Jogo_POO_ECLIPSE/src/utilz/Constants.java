@@ -4,7 +4,7 @@ import main.Game;
 
 public class Constants {
 	
-	public static final int ANI_SPEED = 25;
+	public static final int ANI_SPEED = 15;
 	
 	public static class UI {
 		public static class Buttons {

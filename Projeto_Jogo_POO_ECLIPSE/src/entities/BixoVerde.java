@@ -11,7 +11,7 @@ public class BixoVerde extends Enemy {
 
 	public BixoVerde(float x, float y) {
 		
-		super(x, y, Game.TILES_SIZE, Game.TILES_SIZE, BIXO_VERDE);
+		super(x, y, Game.TILES_SIZE - 1, Game.TILES_SIZE - 1, BIXO_VERDE);
 		state = MOVING;
 		walkDir = DOWN;
 	}

@@ -7,6 +7,7 @@ import static objects.ObjectManager.openChest;
 import gamestates.Playing;
 import main.Game;
 import static objects.ObjectManager.addFogo;
+import static utilz.Constants.ANI_SPEED;
 
 public class BixoRosa extends Enemy {
 
@@ -16,7 +17,7 @@ public class BixoRosa extends Enemy {
 		tileY = (int) (hitbox.y / Game.TILES_SIZE);
 		tileX = (int) (hitbox.x / Game.TILES_SIZE);
 		state = IDLE;
-		walkDir = RIGHT;
+		walkDir = LEFT;
 	}
 	
 	public void update() {
@@ -24,7 +25,7 @@ public class BixoRosa extends Enemy {
             if(openChest())
                 state = MOVING;
             else
-                state = MOVING;
+                state = IDLE;
                 
             if(state == MOVING)
                 shoot();
@@ -36,22 +37,40 @@ public class BixoRosa extends Enemy {
 		
 		case UP -> {
                     if(Playing.getPlayer().getHitbox().intersects(x, 0, width, y))
-                        addFogo(hitbox.x, hitbox.y, walkDir);
+                        updateAnimationTick();
                 }
 			
 		case DOWN -> {
                     if(Playing.getPlayer().getHitbox().intersects(x, y, width, Game.GAME_HEIGHT - y))
-                        addFogo(hitbox.x, hitbox.y, walkDir);
+                        updateAnimationTick();
                 }
 			
 		case LEFT -> {
                     if(Playing.getPlayer().getHitbox().intersects(0, y, x, height))
-                        addFogo(hitbox.x, hitbox.y, walkDir);
+                        updateAnimationTick();
                 }
 			
 		case RIGHT -> {
                     if(Playing.getPlayer().getHitbox().intersects(x, y, Game.GAME_WIDTH - x, height))
-                        addFogo(hitbox.x, hitbox.y, walkDir);                }
+                        updateAnimationTick();               
+                }
             }
-	}	
+	}
+        
+        private void updateAnimationTick() {
+		
+		aniTick++;
+		
+		if (aniTick >= ANI_SPEED) {
+			
+			aniTick = 0;
+			aniIndex++;
+			
+			if (aniIndex >= 5) {
+				
+				aniIndex = 0;
+                                addFogo(hitbox.x, hitbox.y, walkDir); 
+			}
+		}
+	}
 }
