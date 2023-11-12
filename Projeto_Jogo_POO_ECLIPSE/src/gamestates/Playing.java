@@ -139,7 +139,7 @@ public class Playing extends State implements Statemethods {
     public void setLevelCompleted(boolean levelCompleted) {
         if(levelCompleted == true) {
             loadNextLevel();
-            player.tiros = 2;
+            player.tiros = 0;
         }
     }
 }
