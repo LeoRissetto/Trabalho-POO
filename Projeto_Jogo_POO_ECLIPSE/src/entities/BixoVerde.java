@@ -1,5 +1,6 @@
 package entities;
 
+import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import static utilz.Constants.Directions.*;
@@ -8,6 +9,7 @@ import static utilz.Constants.EnemyConstants.*;
 import static utilz.HelpMethods.CanMoveHere;
 
 import main.Game;
+import static objects.ObjectManager.checkCoracaoHit;
 
 public class BixoVerde extends Enemy {
 
@@ -84,7 +86,7 @@ public class BixoVerde extends Enemy {
                 else
                     ySpeed = walkSpeed;
 
-                if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, lvlData) && !checkHitPlayer(hitbox, xSpeed, ySpeed)) {
+                if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, lvlData) && !checkHitPlayer(hitbox, xSpeed, ySpeed) && !checkCoracaoHit(hitbox, xSpeed, ySpeed)) {
 
                     hitbox.x += xSpeed;
                     hitbox.y += ySpeed;
@@ -100,12 +102,12 @@ public class BixoVerde extends Enemy {
     }
 
     private void changeWalkDir() {
-
-        walkDir = switch (walkDir) {
-            case LEFT -> RIGHT;
-            case RIGHT -> LEFT;
-            case DOWN -> UP;
-            default -> DOWN;
-        };
-    }
+        walkDir = switch ((int) (Math.random() * 4)) {
+        case 0 -> LEFT;
+        case 1 -> RIGHT;
+        case 2 -> UP;
+        case 3 -> DOWN;
+        default -> walkDir; // Caso inesperado, mantém a direção atual
+    };
+}
 }
