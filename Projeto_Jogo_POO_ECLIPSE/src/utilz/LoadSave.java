@@ -2,16 +2,14 @@ package utilz;
 
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Scanner;
-import levels.LevelManager;
-import objects.ObjectManager;
 
 import javax.imageio.ImageIO;
 import main.Game;
@@ -112,51 +110,35 @@ public class LoadSave {
             return matrix;
         }
         
-        public static void CreateFile() {
-		File txtFile = new File("build/classes/TextFile.txt");
+    public static void WriteToFile(int numeroParaEscrever) {
+        // Obtenha o caminho do arquivo usando getResource
+        String filePath = LoadSave.class.getResource("/TextFile.txt").getPath();
 
-		try {
-			txtFile.createNewFile();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            // Escreve o número no arquivo
+            writer.write(Integer.toString(numeroParaEscrever));
+        } catch (IOException e) {
+            // Trate a exceção de maneira significativa para o seu aplicativo
+            e.printStackTrace();
+        }
+    }
 
-	}
-        
-        public static void WriteToFile() {
-            File txtFile = new File("build/classes/TextFile.txt");
-		try {
-                        int lvlIndex = ObjectManager.getPlaying().getLevelManager().getLvlIndex();
-			PrintWriter pw = new PrintWriter(txtFile);
-			pw.println(lvlIndex);
-                        pw.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-
-	}
-        
-        public static int ReadFromFile() {
+    public static int ReadFromFile() {
         int numeroLido = 0;  // Valor padrão, pode ser ajustado conforme necessário
 
-        try {
-            Scanner sc = new Scanner(new File("build/classes/TextFile.txt"));
-
+        try (Scanner sc = new Scanner(LoadSave.class.getResourceAsStream("/TextFile.txt"))) {
             if (sc.hasNextLine()) {
                 String linha = sc.nextLine();
                 numeroLido = Integer.parseInt(linha.trim());
             }
-
-            sc.close();
-
-        } catch (FileNotFoundException | NumberFormatException e) {
+        } catch (NumberFormatException e) {
+            // Trate a exceção de maneira significativa para o seu aplicativo
             e.printStackTrace();
         }
-        if(numeroLido > 3 || numeroLido <= 0){
-            return 1;
+
+        if (numeroLido > 3 || numeroLido <= 0) {
+            return 0;
         }
         return numeroLido;
     }
-
-        
 }

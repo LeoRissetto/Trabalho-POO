@@ -34,6 +34,7 @@ public class Playing extends State implements Statemethods {
             enemyManager = new EnemyManager(this);
             objectManager = new ObjectManager(this);
             player = new Player(400, 300, (int) (16 * Game.SCALE), (int) (16 * Game.SCALE));
+            levelManager.setLvlIndex(LoadSave.ReadFromFile());
             player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
             player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
             player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
@@ -91,7 +92,7 @@ public class Playing extends State implements Statemethods {
             Gamestate.state = Gamestate.MENU;
         
         if (e.getKeyCode() == KeyEvent.VK_P)
-            LoadSave.WriteToFile();
+            LoadSave.WriteToFile(levelManager.getLvlIndex());
     }
 
     @Override
@@ -115,11 +116,9 @@ public class Playing extends State implements Statemethods {
     }
 
     private void loadStartLevel() {
-        levelManager.setLvlIndex(LoadSave.ReadFromFile());
+ 
         enemyManager.loadEnemies(levelManager.getCurrentLevel());
         objectManager.loadObjects(levelManager.getCurrentLevel());
-        setLevelCompleted(true);
-        player.setAlive(true);
     }
     
     public void loadNextLevel() {
