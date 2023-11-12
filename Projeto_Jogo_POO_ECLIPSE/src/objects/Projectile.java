@@ -1,56 +1,62 @@
 package objects;
 
-import java.awt.geom.Rectangle2D;
-import main.Game;
-import static utilz.Constants.Directions.*;
+import static entities.EnemyManager.checkEnemyHit;
 
-public class Projectile {
+import gamestates.Playing;
+import main.Game;
+
+import static objects.ObjectManager.checkCaixaHit;
+import static objects.ObjectManager.checkCoracaoHit;
+
+import static utilz.Constants.Directions.*;
+import static utilz.HelpMethods.CanMoveHere;
+
+public abstract class Projectile extends GameObject{
     
-    private Rectangle2D.Float hitbox;
-    private int direction;
-    private boolean active = true;
-    
-    public Projectile(float x, float y, int direction) {
+    public Projectile(float x, float y, int objectType) {
         
-        hitbox = new Rectangle2D.Float(x, y, Game.TILES_SIZE, Game.TILES_SIZE);
-        this.direction = direction;
+        super(x, y, Game.TILES_SIZE, Game.TILES_SIZE, objectType);
     }
     
     public void updatePos() {
         
-        switch(direction) {
-            case UP: 
-                hitbox.y -= 0.50f * Game.SCALE;
-                break;
+        switch(aniIndex) {
+            case UP -> hitbox.y -= 0.50f * Game.SCALE;
                 
-            case DOWN:
-                hitbox.y += 0.50f * Game.SCALE;
-                break;
+            case DOWN -> hitbox.y += 0.50f * Game.SCALE;
                 
-            case LEFT:
-                hitbox.x -= 0.50f * Game.SCALE;
-                break;
+            case LEFT -> hitbox.x -= 0.50f * Game.SCALE;
                 
-            case RIGHT:
-                hitbox.x += 0.50f * Game.SCALE;
-                break;
+            case RIGHT -> hitbox.x += 0.50f * Game.SCALE;
         }
+    }
+    
+    public void updateMove(int[][] lvlData) {
+
+	if(!checkCaixaHit(hitbox, Playing.getPlayer().getXSpeed(), Playing.getPlayer().getYSpeed()) && CanMoveHere(hitbox.x + Playing.getPlayer().getXSpeed(), hitbox.y + Playing.getPlayer().getYSpeed(), hitbox.width, hitbox.height, lvlData) &&
+                checkBoxHit() && !checkCoracaoHit(hitbox, Playing.getPlayer().getXSpeed(), Playing.getPlayer().getYSpeed())){
+            if (!checkEnemyHit(hitbox, Playing.getPlayer().getXSpeed(), Playing.getPlayer().getYSpeed())) {
+                hitbox.x += Playing.getPlayer().getXSpeed();
+                hitbox.y += Playing.getPlayer().getYSpeed();
+            } else {
+            }
+        }
+    }
+    
+    private boolean checkBoxHit() {
+        
+        return hitbox.intersects(Playing.getPlayer().getHitbox().x + Playing.getPlayer().getXSpeed(), Playing.getPlayer().getHitbox().y + Playing.getPlayer().getYSpeed(), Playing.getPlayer().getHitbox().width, Playing.getPlayer().getHitbox().height);
     }
     
     public void setPos(float x, float y) {
         hitbox.x = x;
         hitbox.y = y;
     }
-
-    public Rectangle2D.Float getHitbox() {
-        return hitbox;
-    }
-    
-    public boolean isActive() {
-        return active;
-    }
     
     public void setActive(boolean active) {
         this.active = active; 
     }
+
+    @Override
+    public abstract void update(int[][] lvlData); 
 }

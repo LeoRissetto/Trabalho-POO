@@ -20,7 +20,8 @@ public class BixoRosa extends Enemy {
 		walkDir = LEFT;
 	}
 	
-	public void update() {
+        @Override
+	public void update(int[][] lvlData) {
             
             if(openChest())
                 state = MOVING;
@@ -69,7 +70,7 @@ public class BixoRosa extends Enemy {
 			if (aniIndex >= 5) {
 				
 				aniIndex = 0;
-                                addFogo(hitbox.x, hitbox.y, walkDir); 
+                                addFogo(hitbox.x, hitbox.y); 
 			}
 		}
 	}

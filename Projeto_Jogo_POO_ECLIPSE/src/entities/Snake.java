@@ -12,7 +12,8 @@ public class Snake extends Enemy {
 		super(x, y, Game.TILES_SIZE, Game.TILES_SIZE, SNAKE);
 	}
 	
-	public void update() {
+        @Override
+	public void update(int[][] lvlData) {
 		lookLolo();
 	}
 	

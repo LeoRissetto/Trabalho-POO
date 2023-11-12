@@ -10,7 +10,8 @@ public class Agua extends GameObject{
         super(x, y, Game.TILES_SIZE, Game.TILES_SIZE, AGUA);
     }
     
-    public void update(){
+    @Override
+    public void update(int[][] lvlData){
         
         updateAnimationTick();
     }

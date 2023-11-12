@@ -7,17 +7,21 @@ import java.util.ArrayList;
 
 import gamestates.Playing;
 import levels.Level;
-import main.Game;
 import utilz.LoadSave;
+
+import static objects.ObjectManager.addBola;
+import objects.Tiro;
+
+import static utilz.Constants.EnemyConstants.*;
+import static utilz.LoadSave.GetSpriteArray;
+import static utilz.LoadSave.GetSpriteMatrix;
 
 public class EnemyManager {
 
 	private BufferedImage[] snakeArr, caveiraArr;
 	private BufferedImage[][] bixoVerdeArr, bixoRosaArr;
-	private static ArrayList<Snake> snakes = new ArrayList<>();
-	private static ArrayList<Caveira> caveiras = new ArrayList<>();
-	private static ArrayList<BixoVerde> bixosVerde = new ArrayList<>();
-	private static ArrayList<BixoRosa> bixosRosa = new ArrayList<>();
+        
+	private static ArrayList<? extends Enemy> snakes, caveiras, bixosVerde, bixosRosa;
 
 	public EnemyManager(Playing playing) {
 		
@@ -34,148 +38,122 @@ public class EnemyManager {
 
 	public void update(int[][] lvlData) {
 		
-		for (Snake s : snakes)
-                    if(s.isActive())
-			s.update();
-		
-		for (Caveira c : caveiras)
-                    if(c.isActive())
-			c.update(lvlData);
-		
-		for (BixoVerde bv : bixosVerde)
-                    if(bv.isActive())
-			bv.update(lvlData);
-		
-		for (BixoRosa br : bixosRosa)
-                    if(br.isActive())
-			br.update();
+		updateEnemy(snakes, lvlData);
+                updateEnemy(caveiras, lvlData);
+                updateEnemy(bixosVerde, lvlData);
+                updateEnemy(bixosRosa, lvlData);
 	}
+        
+        private void updateEnemy(ArrayList<? extends Enemy> array, int[][] lvlData) {
+            
+            for (Enemy a : array)
+                if(a.isActive())
+                    a.update(lvlData);
+        }
 
 	public void draw(Graphics g) {
 		
-		drawSnakes(g);
-		drawCaveiras(g);
-		drawBixosVerde(g);
-		drawBixosRosa(g);
+		drawEnemy(snakes, g);
+                drawEnemy(caveiras, g);
+                drawEnemy(bixosVerde, g);
+                drawEnemy(bixosRosa, g);
 	}
 
-	private void drawSnakes(Graphics g) {
-		
-		for (Snake s : snakes) {
-                    if(s.isActive())
-			g.drawImage(snakeArr[s.getAniIndex()], (int) s.getHitbox().x, (int) s.getHitbox().y, s.width, s.height, null);
-			//s.drawHitbox(g);
-		}
-	}
-	
-	private void drawCaveiras(Graphics g) {
-		
-		for (Caveira c : caveiras) {
-                    if(c.isActive())
-			g.drawImage(caveiraArr[c.getAniIndex()], (int) c.getHitbox().x, (int) c.getHitbox().y, c.width, c.height, null);
-			//c.drawHitbox(g);
-		}
-	}
-	
-	private void drawBixosVerde(Graphics g) {
-		
-		for (BixoVerde bv : bixosVerde) {
-                    if(bv.isActive())
-			g.drawImage(bixoVerdeArr[bv.getAniIndex()][bv.getWalkDir()], (int) bv.getHitbox().x, (int) bv.getHitbox().y, bv.width, bv.height, null);
-			//bv.drawHitbox(g);
-		}
-	}
-	
-	private void drawBixosRosa(Graphics g) {
-		
-		for (BixoRosa br : bixosRosa) {
-                    if(br.isActive())
-			g.drawImage(bixoRosaArr[br.getWalkDir()][br.getState()], (int) br.getHitbox().x, (int) br.getHitbox().y, br.width, br.height, null);
-			//br.drawHitbox(g);
-		}
+	private void drawEnemy(ArrayList<? extends Enemy> array, Graphics g) { 
+            
+            for (Enemy a : array) {
+                if(a.isActive())
+                    switch(a.enemyType) {
+                        
+                        case SNAKE -> g.drawImage(snakeArr[a.getAniIndex()], (int) a.getHitbox().x, (int) a.getHitbox().y, a.width, a.height, null);
+                            
+                        case CAVEIRA -> g.drawImage(caveiraArr[a.getAniIndex()], (int) a.getHitbox().x, (int) a.getHitbox().y, a.width, a.height, null);
+                            
+                        case BIXO_VERDE -> g.drawImage(bixoVerdeArr[a.getAniIndex()][a.getWalkDir()], (int) a.getHitbox().x, (int) a.getHitbox().y, a.width, a.height, null);
+                            
+                        case BIXO_ROSA -> g.drawImage(bixoRosaArr[a.getWalkDir()][a.getState()], (int) a.getHitbox().x, (int) a.getHitbox().y, a.width, a.height, null);             
+                    }
+                    a.drawHitbox(g);
+            }
 	}
 	
 	private void loadEnemyImgs() {
-		
-		snakeArr = new BufferedImage[4];
-		BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.SNAKE_SPRITE);
-		for (int j = 0; j < snakeArr.length; j++)
-			snakeArr[j] = temp.getSubimage(j * Game.TILES_DEFAULT_SIZE, 0, Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE);
-		
-		caveiraArr = new BufferedImage[3];
-		temp = LoadSave.GetSpriteAtlas(LoadSave.CAVEIRA_SPRITE);
-		for (int j = 0; j < caveiraArr.length; j++)
-			caveiraArr[j] = temp.getSubimage(j * Game.TILES_DEFAULT_SIZE, 0, Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE);
-		
-		bixoVerdeArr = new BufferedImage[4][4];
-		temp = LoadSave.GetSpriteAtlas(LoadSave.BIXO_VERDE_SPRITE);
-		for (int j = 0; j < bixoVerdeArr.length; j++)
-			for(int i = 0; i < bixoVerdeArr[j].length; i++)
-				bixoVerdeArr[j][i] = temp.getSubimage(j * Game.TILES_DEFAULT_SIZE, i * Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE);
-		
-		bixoRosaArr = new BufferedImage[4][2];
-		temp = LoadSave.GetSpriteAtlas(LoadSave.BIXO_ROSA_SPRITE);
-		for (int j = 0; j < bixoRosaArr.length; j++)
-			for(int i = 0; i < bixoRosaArr[j].length; i++)
-				bixoRosaArr[j][i] = temp.getSubimage(j * Game.TILES_DEFAULT_SIZE, i * Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE);
-		
+            
+                snakeArr = GetSpriteArray(snakeArr, 4, 1, 0, LoadSave.SNAKE_SPRITE);
+                caveiraArr = GetSpriteArray(caveiraArr, 3, 1, 0, LoadSave.CAVEIRA_SPRITE);            
+                bixoVerdeArr = GetSpriteMatrix(bixoVerdeArr, 4, 4, LoadSave.BIXO_VERDE_SPRITE);    
+                bixoRosaArr = GetSpriteMatrix(bixoRosaArr, 4, 2, LoadSave.BIXO_ROSA_SPRITE);
 	}
 	
 	public static boolean checkEnemyHit(Rectangle2D hitbox, float xSpeed, float ySpeed) {
 		
-		boolean temp = false;
-		
-		for (Snake s : snakes)
-                    if(s.isActive())
-			if(s.getHitbox().intersects(hitbox.getX() + xSpeed, hitbox.getY() + ySpeed, hitbox.getWidth(), hitbox.getHeight()))
-				temp = true;
-                
-                for (Caveira c : caveiras)
-                    if(c.isActive())
-			if(c.getHitbox().intersects(hitbox.getX() + xSpeed, hitbox.getY() + ySpeed, hitbox.getWidth(), hitbox.getHeight()))
-				temp = true;
-		
-		for (BixoVerde bv : bixosVerde)
-                    if(bv.isActive())
-			if(bv.getHitbox().intersects(hitbox.getX() + xSpeed, hitbox.getY() + ySpeed, hitbox.getWidth(), hitbox.getHeight()))
-				temp = true;
-		
-		for (BixoRosa br : bixosRosa)
-                    if(br.isActive())
-			if(br.getHitbox().intersects(hitbox.getX() + xSpeed, hitbox.getY() + ySpeed, hitbox.getWidth(), hitbox.getHeight()))
-				temp = true;
-		
-		return temp;
+		return checkHit(snakes, hitbox, xSpeed, ySpeed) | checkHit(caveiras, hitbox, xSpeed, ySpeed)
+                        | checkHit(bixosVerde, hitbox, xSpeed, ySpeed) | checkHit(bixosRosa, hitbox, xSpeed, ySpeed);
 	}
+        
+        private static boolean checkHit(ArrayList<? extends Enemy> array, Rectangle2D hitbox, float xSpeed, float ySpeed) {
+            
+            boolean temp = false;
+            
+            for(Enemy a : array)
+                if(a.isActive())
+                    if(a.hitbox.intersects(hitbox.getX() + xSpeed, hitbox.getY() + ySpeed, hitbox.getWidth(), hitbox.getHeight()))
+                        temp = true;
+            
+            return temp;        
+        }
 
-    public void resetAllEnemies() {
+        public void resetAllEnemies() {
+
+            resetEnemy(snakes);
+            resetEnemy(caveiras);
+            resetEnemy(bixosVerde);
+            resetEnemy(bixosRosa);
+        }
         
-        for (Snake s : snakes)
-            s.resetEnemy();
-		
-	for (Caveira c : caveiras)
-            c.resetEnemy();
-		
-	for (BixoVerde bv : bixosVerde)
-            bv.resetEnemy();
-		
-	for (BixoRosa br : bixosRosa)
-            br.resetEnemy();
-    }
-    
-    public void killAllEnemies() {
+        private void resetEnemy(ArrayList<? extends Enemy> array) {
+            for (Enemy a : array)
+                if(a.isActive())
+                    a.resetEnemy();
+        }
+
+        public void killAllEnemies() {
+
+            killEnemy(snakes);
+            killEnemy(caveiras);
+            killEnemy(bixosVerde);
+            killEnemy(bixosRosa);
+        }
         
-        for (Snake s : snakes)
-            s.setActive(false);
-		
-	for (Caveira c : caveiras)
-            c.setActive(false);
-		
-	for (BixoVerde bv : bixosVerde)
-            bv.setActive(false);
-		
-	for (BixoRosa br : bixosRosa)
-            br.setActive(false);
-    }
-	
+        private void killEnemy(ArrayList<? extends Enemy> array) {
+            for (Enemy a : array)
+                if(a.isActive())
+                    a.setActive(false);
+        }
+
+        public static boolean checkBola(Tiro t) {
+
+            boolean temp = false;
+
+            for (Enemy s : snakes)
+                if(s.isActive())
+                    if(s.getHitbox().intersects(t.getHitbox())){
+                        t.setActive(false);
+                        addBola(s.hitbox.x, s.hitbox.y, s.walkDir);
+                        s.setActive(false);
+                        temp = true;
+                    }
+
+
+            for (Enemy c : caveiras)
+                if(c.isActive())
+                    if(c.getHitbox().intersects(t.getHitbox())){
+                        t.setActive(false);
+                        addBola(c.hitbox.x, c.hitbox.y, c.walkDir);
+                        c.setActive(false);
+                        temp = true;
+                    }
+
+            return temp;
+        }
 }

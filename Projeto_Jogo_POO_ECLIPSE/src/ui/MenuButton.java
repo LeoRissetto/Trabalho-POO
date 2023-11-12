@@ -14,7 +14,7 @@ public class MenuButton {
 	
 	public MenuButton(int xPos, int yPos, int rowIndex, Gamestate state) {
 		
-		loadImgs();
+            loadImgs();
 	}
 
 	private void loadImgs() {
@@ -24,6 +24,7 @@ public class MenuButton {
 	}
 	
 	public void draw(Graphics g) {
-		g.drawImage(imgs, Game.TILES_SIZE * (Game.TILES_IN_WIDTH - 10), Game.TILES_SIZE * (Game.TILES_IN_HEIGHT - 4), B_WIDTH, B_HEIGHT, null);
+            
+            g.drawImage(imgs, Game.TILES_SIZE * (Game.TILES_IN_WIDTH - 10), Game.TILES_SIZE * (Game.TILES_IN_HEIGHT - 4), B_WIDTH, B_HEIGHT, null);
 	}
 }

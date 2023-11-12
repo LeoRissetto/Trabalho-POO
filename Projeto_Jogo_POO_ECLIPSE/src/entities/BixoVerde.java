@@ -106,5 +106,4 @@ public class BixoVerde extends Enemy {
                 default -> DOWN;
             };
 	}
-	
 }

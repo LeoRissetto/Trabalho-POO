@@ -12,11 +12,14 @@ public abstract class Enemy extends Entity {
 
 	public Enemy(float x, float y, int width, int height, int enemyType) {
 		
-		super(x, y, width, height);
-		this.enemyType = enemyType;
-		initHitbox((float) (width), (float) (height));
-		this.walkSpeed = 0.35f * Game.SCALE;
-                active = true;
+            super(x, y, width, height);
+            
+            this.enemyType = enemyType;
+            this.walkSpeed = 0.35f * Game.SCALE;
+            
+            initHitbox((float) (width), (float) (height));
+            
+            active = true;
 	}
 	
 	protected boolean checkHitPlayer(Rectangle2D hitbox, float xSpeed, float ySpeed) {
@@ -25,16 +28,21 @@ public abstract class Enemy extends Entity {
 	}
         
         public void resetEnemy() {
+            
             hitbox.x = x;
             hitbox.y = y;
             active = true;
 	}
         
         public boolean isActive() {
+            
             return active;
         }
 
         public void setActive(boolean active) {
+            
             this.active = active;
         }
+        
+        public abstract void update(int[][] lvlData);
 }

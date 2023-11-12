@@ -11,7 +11,6 @@ import objects.ObjectManager;
 import main.Game;
 
 import static objects.ObjectManager.openDoor;
-import static objects.ObjectManager.addBola;
 
 public class Playing extends State implements Statemethods {
 	
@@ -19,6 +18,7 @@ public class Playing extends State implements Statemethods {
 	private LevelManager levelManager;
 	private EnemyManager enemyManager;
         private ObjectManager objectManager;
+        private int tiros;
 
 	public Playing(Game game) {
 		super(game);
@@ -34,6 +34,7 @@ public class Playing extends State implements Statemethods {
                 player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
 		player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
 		player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
+                tiros = 2;
 
 	}
 
@@ -42,7 +43,13 @@ public class Playing extends State implements Statemethods {
             
                 if(!player.isAlive()) {
                     
-                    levelManager.setLvlIndex(3);
+                    if(player.vidas > 0) {
+                        levelManager.setLvlIndex(levelManager.getLvlIndex() - 1);
+                    }
+                    else {
+                        levelManager.setLvlIndex(3);
+                        player.vidas = 5;
+                    }
                     setLevelCompleted(true);
                     player.setAlive(true);
                 }
@@ -72,6 +79,12 @@ public class Playing extends State implements Statemethods {
 		case KeyEvent.VK_A -> player.setLeft(true);
 		case KeyEvent.VK_S -> player.setDown(true);
 		case KeyEvent.VK_D -> player.setRight(true);
+                case KeyEvent.VK_X -> {
+                    if(tiros>0) {
+                        objectManager.addTiros(player.getHitbox().x, player.getHitbox().y);
+                        tiros--;
+                        }
+                    }
 		}
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
 			Gamestate.state = Gamestate.MENU;
@@ -109,6 +122,7 @@ public class Playing extends State implements Statemethods {
         levelManager.loadNextLevel();
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+        tiros = 2;
     }
 
     public EnemyManager getEnemyManager() {
@@ -131,6 +145,12 @@ public class Playing extends State implements Statemethods {
             loadNextLevel();
         }
     }
-    
-    
+
+    public void setTiros(int tiros) {
+        this.tiros = tiros;
+    }
+
+    public int getTiros() {
+        return tiros;
+    }
 }

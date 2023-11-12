@@ -19,7 +19,7 @@ public class Caveira extends Enemy {
 
 	public Caveira(float x, float y) {
 		
-		super(x, y, Game.TILES_SIZE, Game.TILES_SIZE, CAVEIRA);
+		super(x, y, Game.TILES_SIZE, Game.TILES_SIZE-1, CAVEIRA);
 		state = IDLE;
 		walkDir = LEFT;
 	}
@@ -35,7 +35,7 @@ public class Caveira extends Enemy {
 		
 		if(state == MOVING) {
                  
-                    if(checkHitPlayer(hitbox, 0, 0))
+                    if(checkHitPlayer(hitbox, 0, 0)) 
                         Playing.getPlayer().setAlive(false);
                     updateAnimationTick();
                 }
@@ -62,7 +62,7 @@ public class Caveira extends Enemy {
 		switch (state) {
 		
 			case IDLE -> {
-                }
+                        }
 				
 			case MOVING -> {
                             float xSpeed = 0;
@@ -76,7 +76,7 @@ public class Caveira extends Enemy {
                                 hitbox.x += xSpeed;
                             else
                                 changeWalkDir();
-                }
+                        }
 		}
 	}
 

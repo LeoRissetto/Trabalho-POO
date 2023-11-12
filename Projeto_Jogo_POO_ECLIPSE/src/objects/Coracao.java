@@ -11,7 +11,8 @@ public class Coracao extends GameObject{
 		super(x, y, Game.TILES_SIZE, Game.TILES_SIZE, CORACAO);
 	}
 	
-	public void update() {
+        @Override
+	public void update(int[][] lvlData) {
             
             if(isCollected() && active == true){
                 active = false;

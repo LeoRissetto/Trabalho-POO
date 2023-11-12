@@ -11,7 +11,8 @@ public class Bau extends GameObject{
         aniIndex = 0;
     }
     
-    public void update(){
+    @Override
+    public void update(int[][] lvlData){
         if(openChest()) {
             if(aniIndex == 0)
                 aniIndex = 1;

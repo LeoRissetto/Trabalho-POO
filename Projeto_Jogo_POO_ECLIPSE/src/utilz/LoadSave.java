@@ -9,19 +9,23 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import main.Game;
 
 
 public class LoadSave {
 
 	public static final String PLAYER_ATLAS = "lolo_spritesheet.png";
+        
 	public static final String LEVEL_ATLAS = "textures.png";
-	public static final String LEVEL_ONE_DATA = "levelBase.png";
+        
 	public static final String MENU_BUTTONS = "playButton.jpg";
 	public static final String MENU_BACKGROUND = "menuScreen.png";
+        
 	public static final String SNAKE_SPRITE = "snake.png";
 	public static final String CAVEIRA_SPRITE = "caveira.png";
 	public static final String BIXO_VERDE_SPRITE = "bixoVerde.png";
 	public static final String BIXO_ROSA_SPRITE = "bixoRosa.png";
+        
         public static final String CORACAO_IMG = "coracao.png";
         public static final String AGUA_SPRITE = "agua.png";
         public static final String CAIXA_IMG = "caixa.png";
@@ -29,52 +33,78 @@ public class LoadSave {
         public static final String PORTA_SPRITE = "porta.png";
         public static final String BOLA_IMG = "bola.png";
         public static final String FOGO_SPRITE = "fogo.png";
+        public static final String TIRO_SPRITE = "tiro.png";
          
 
 	public static BufferedImage GetSpriteAtlas(String fileName) {
-		BufferedImage img = null;
-		InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
-		try {
-			img = ImageIO.read(is);
+            
+            BufferedImage img = null;
+            InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
+            try {
+                    img = ImageIO.read(is);
 
-		} catch (IOException e) {
-		} finally {
-			try {
-				is.close();
-			} catch (IOException e) {
-			}
-		}
-		return img;
+            } catch (IOException e) {
+            } finally {
+                    try {
+                            is.close();
+                    } catch (IOException e) {
+                    }
+            }
+            return img;
 	}
 	
 	public static BufferedImage[] GetAllLevels() {
-		URL url = LoadSave.class.getResource("/lvls");
-		File file = null;
+            
+            URL url = LoadSave.class.getResource("/lvls");
+            File file = null;
 
-		try {
-			file = new File(url.toURI());
-		} catch (URISyntaxException e) {
-		}
+            try {
+                    file = new File(url.toURI());
+            } catch (URISyntaxException e) {
+            }
 
-		File[] files = file.listFiles();
-		File[] filesSorted = new File[files.length];
+            File[] files = file.listFiles();
+            File[] filesSorted = new File[files.length];
 
-		for (int i = 0; i < filesSorted.length; i++)
-			for (File file1 : files) {
-                        if (file1.getName().equals((i + 1) + ".png")) {
-                            filesSorted[i] = file1;
-                        }
+            for (int i = 0; i < filesSorted.length; i++)
+                    for (File file1 : files) {
+                    if (file1.getName().equals((i + 1) + ".png")) {
+                        filesSorted[i] = file1;
+                    }
+                }
+
+            BufferedImage[] imgs = new BufferedImage[filesSorted.length];
+
+            for (int i = 0; i < imgs.length; i++)
+                    try {
+                            imgs[i] = ImageIO.read(filesSorted[i]);
+                    } catch (IOException e) {
                     }
 
-		BufferedImage[] imgs = new BufferedImage[filesSorted.length];
-
-		for (int i = 0; i < imgs.length; i++)
-			try {
-				imgs[i] = ImageIO.read(filesSorted[i]);
-			} catch (IOException e) {
-			}
-
-		return imgs;
-	}     
+            return imgs;
+	}
+        
+        public static BufferedImage[] GetSpriteArray(BufferedImage[] array, int index, int x, int y, String filename) {
+            
+            array = new BufferedImage[index];
+            BufferedImage temp = GetSpriteAtlas(filename);
+            for(int j = 0; j < array.length; j++) {
+                array[j] = temp.getSubimage(j * Game.TILES_DEFAULT_SIZE * x, j * Game.TILES_DEFAULT_SIZE * y, Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE);
+            }
+            
+            return array;
+        }
+        
+        public static BufferedImage[][] GetSpriteMatrix(BufferedImage[][] matrix, int indexX, int indexY, String filename) {
+            
+            matrix = new BufferedImage[indexX][indexY];
+            BufferedImage temp = GetSpriteAtlas(filename);
+            for(int j = 0; j < matrix.length; j++) {
+                for(int i = 0; i < matrix[j].length; i++)
+                    matrix[j][i] = temp.getSubimage(j * Game.TILES_DEFAULT_SIZE, i * Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE);
+            }
+            
+            return matrix;
+        }
         
 }

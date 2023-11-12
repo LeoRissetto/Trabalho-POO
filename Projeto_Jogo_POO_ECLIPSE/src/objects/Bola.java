@@ -4,14 +4,33 @@
  */
 package objects;
 
+
+import static objects.ObjectManager.checkTiroHit;
+import static utilz.Constants.ObjectConstants.*;
 /**
  *
  * @author leorissetto
  */
 public class Bola extends Projectile{
     
-    public Bola(float x, float y, int direction) {
-        super(x, y, direction);
+    public boolean hit = false;
+    
+    public Bola(float x, float y) {
+        super(x, y, BOLA);
+    }
+
+    @Override
+    public void update(int[][] lvlData) {
+        
+        if(!hit) {
+            //b.setDirection();
+            updateMove(lvlData);
+        }
+        else
+            updatePos();
+
+        if(checkTiroHit(this))
+            hit = true;    
     }
     
 }

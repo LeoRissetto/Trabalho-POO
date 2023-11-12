@@ -4,25 +4,23 @@
  */
 package objects;
 
-import gamestates.Playing;
+
+import static entities.EnemyManager.checkBola;
 import static utilz.Constants.ObjectConstants.*;
 /**
  *
  * @author leorissetto
  */
-public class Fogo extends Projectile{
+public class Tiro extends Projectile{
     
-    public Fogo(float x, float y) {
-        super(x, y, FOGO);
-    }
+    public Tiro(float x, float y) {
+        super(x, y, TIRO);
+    }   
 
     @Override
     public void update(int[][] lvlData) {
         
-        if(isActive()) {
-            updatePos();
-            if(checkHitPlayer(getHitbox(), 0, 0))
-                Playing.getPlayer().setAlive(false);
-        }
+        updatePos();
+        checkBola(this);
     }
 }

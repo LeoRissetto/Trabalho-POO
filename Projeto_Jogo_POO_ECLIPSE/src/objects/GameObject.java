@@ -15,13 +15,17 @@ public abstract class GameObject {
     protected boolean active;
     
     public GameObject(float x, float y, int width, int height, int objectType) {
+        
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+                
                 this.objectType = objectType;
-		active = false;
+                
                 initHitbox(width, height);
+                
+                active = false;
                 active = true;
     }
     
@@ -59,4 +63,11 @@ public abstract class GameObject {
     public boolean isActive() {
         return active;
     }
+
+    public int getObjectType() {
+        
+        return objectType;
+    }
+    
+    public abstract void update(int[][] lvlData);
 }

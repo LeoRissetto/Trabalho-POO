@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import static entities.EnemyManager.checkEnemyHit;
 import static objects.ObjectManager.checkCaixaHit;
+import static objects.ObjectManager.checkBolaHit;
 import java.awt.Point;
 
 import main.Game;
@@ -22,6 +23,7 @@ public class Player extends Entity {
 	private int[][] lvlData;
         private final float xDrawOffset = (float) (2 * Game.SCALE);
         private final float yDrawOffset = (float) (2 * Game.SCALE);
+        public int vidas;
 
 	public Player(float x, float y, int width, int height) {
 		super(x, y, width, height);
@@ -31,6 +33,7 @@ public class Player extends Entity {
 		tileX = (int) (hitbox.x / Game.TILES_SIZE);
 		walkDir = DOWN;
 		this.walkSpeed = 0.35f * Game.SCALE;
+                vidas = 5;
 
 	}
 
@@ -53,7 +56,7 @@ public class Player extends Entity {
 
 	public void render(Graphics g) {
 		g.drawImage(animations[walkDir][aniIndex], (int) ( hitbox.x - xDrawOffset), (int) (hitbox.y - yDrawOffset), width, height, null);
-		//drawHitbox(g);
+		drawHitbox(g);
 	}
 
 	private void updateAnimationTick() {
@@ -129,7 +132,8 @@ public class Player extends Entity {
 			xSpeed = 0;
 		}
 
-		if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, lvlData) && !checkEnemyHit(hitbox, xSpeed, ySpeed) && !checkCaixaHit(hitbox, xSpeed, ySpeed)) {
+		if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, lvlData) && 
+                        !checkEnemyHit(hitbox, xSpeed, ySpeed) && !checkCaixaHit(hitbox, xSpeed, ySpeed) && !checkBolaHit(hitbox, xSpeed, ySpeed)) {
 			hitbox.x += xSpeed;
 			hitbox.y += ySpeed;
 			moving = true;
@@ -181,6 +185,10 @@ public class Player extends Entity {
 
 	public void setAlive(boolean isAlive) {
 		this.isAlive = isAlive;
+                if(!isAlive) {
+                    vidas--;
+                    System.out.println("Vida: "+vidas);
+                }
 	}
         
         public float getXSpeed() {
