@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.Random;
+
 import static utilz.Constants.Directions.*;
 import static utilz.Constants.ANI_SPEED;
 import static utilz.Constants.EnemyConstants.*;
@@ -98,13 +100,14 @@ public class BixoVerde extends Enemy {
 	}
 
 	private void changeWalkDir() {
-		
-            walkDir = switch (walkDir) {
-                case LEFT -> RIGHT;
-                case RIGHT -> LEFT;
-                case DOWN -> UP;
-                default -> DOWN;
-            };
-	}
+        walkDir = switch ((int) (Math.random() * 4)) {
+        case 0 -> LEFT;
+        case 1 -> RIGHT;
+        case 2 -> UP;
+        case 3 -> DOWN;
+        default -> walkDir; // Caso inesperado, mantém a direção atual
+    };
+}
 	
 }
+
