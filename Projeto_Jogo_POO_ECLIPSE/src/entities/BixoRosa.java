@@ -11,13 +11,13 @@ import static utilz.Constants.ANI_SPEED;
 
 public class BixoRosa extends Enemy {
 
-    public BixoRosa(float x, float y) {
+    public BixoRosa(float x, float y, int walkDir) {
 
             super(x, y, Game.TILES_SIZE, Game.TILES_SIZE, BIXO_ROSA);
             tileY = (int) (hitbox.y / Game.TILES_SIZE);
             tileX = (int) (hitbox.x / Game.TILES_SIZE);
             state = IDLE;
-            walkDir = LEFT;
+            this.walkDir = walkDir;
     }
 
     @Override

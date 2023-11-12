@@ -72,6 +72,7 @@ public class Constants {
     public static class ObjectConstants {
 
         public static final int CORACAO = 0;
+        public static final int CORACAO_PODER = 1;
         public static final int CAIXA = 10;
         public static final int AGUA = 20;
         public static final int BAU = 30;

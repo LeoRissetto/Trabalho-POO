@@ -40,7 +40,7 @@ public class Player extends Entity {
             this.walkSpeed = 0.35f * Game.SCALE;
             
             vidas = 5;
-            tiros = 2;
+            tiros = 0;
 
 	}
 

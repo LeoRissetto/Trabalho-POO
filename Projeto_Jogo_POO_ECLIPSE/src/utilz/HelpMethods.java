@@ -22,6 +22,7 @@ import objects.Coracao;
 import objects.Porta;
 
 import static utilz.Constants.EnemyConstants.*;
+import static utilz.Constants.Directions.*;
 import static utilz.Constants.ObjectConstants.*;
 
 public class HelpMethods {
@@ -83,7 +84,14 @@ public class HelpMethods {
 
                                 case CAVEIRA -> list.add(new Caveira(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
 
-                                case BIXO_ROSA -> list.add(new BixoRosa(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
+                                case BIXO_ROSA -> {
+                                    switch (color.getBlue()) {
+                                        case 4 -> list.add(new BixoRosa(i * Game.TILES_SIZE, j * Game.TILES_SIZE, DOWN));
+                                        case 1 -> list.add(new BixoRosa(i * Game.TILES_SIZE, j * Game.TILES_SIZE, LEFT));
+                                        case 2 -> list.add(new BixoRosa(i * Game.TILES_SIZE, j * Game.TILES_SIZE, UP));
+                                        default -> list.add(new BixoRosa(i * Game.TILES_SIZE, j * Game.TILES_SIZE, RIGHT));
+                                    }
+                                }
 
                                 case BIXO_VERDE -> list.add(new BixoVerde(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
                             }
@@ -103,7 +111,13 @@ public class HelpMethods {
                         if(value == objectType)
                             switch(value) {
 
-                                case CORACAO -> list.add(new Coracao(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
+                                case CORACAO -> {
+                                    if(color.getGreen() == 255)
+                                        list.add(new Coracao(i * Game.TILES_SIZE, j * Game.TILES_SIZE,false));
+                                    else
+                                        list.add(new Coracao(i * Game.TILES_SIZE, j * Game.TILES_SIZE,true));
+                                }
+                                
 
                                 case AGUA -> list.add(new Agua(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
 
