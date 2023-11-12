@@ -11,6 +11,7 @@ import objects.ObjectManager;
 import main.Game;
 
 import static objects.ObjectManager.openDoor;
+import utilz.LoadSave;
 
 public class Playing extends State implements Statemethods {
 	
@@ -23,6 +24,9 @@ public class Playing extends State implements Statemethods {
             super(game);
             initClasses();
             loadStartLevel();
+            
+            //LoadSave.CreateFile();
+            //LoadSave.ReadFromFile();
     }
 
     private void initClasses() {
@@ -85,6 +89,9 @@ public class Playing extends State implements Statemethods {
         }
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
             Gamestate.state = Gamestate.MENU;
+        
+        if (e.getKeyCode() == KeyEvent.VK_P)
+            LoadSave.WriteToFile();
     }
 
     @Override
@@ -108,9 +115,11 @@ public class Playing extends State implements Statemethods {
     }
 
     private void loadStartLevel() {
-        
+        levelManager.setLvlIndex(LoadSave.ReadFromFile());
         enemyManager.loadEnemies(levelManager.getCurrentLevel());
         objectManager.loadObjects(levelManager.getCurrentLevel());
+        setLevelCompleted(true);
+        player.setAlive(true);
     }
     
     public void loadNextLevel() {
@@ -141,5 +150,9 @@ public class Playing extends State implements Statemethods {
             loadNextLevel();
             player.tiros = 0;
         }
+    }
+    
+    public LevelManager getLevelManager(){
+        return levelManager;
     }
 }
