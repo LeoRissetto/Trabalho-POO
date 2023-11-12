@@ -14,7 +14,7 @@ public class Coracao extends GameObject{
         @Override
 	public void update(int[][] lvlData) {
             
-            if(isCollected() && active == true){
+            if(isCollected() && active){
                 active = false;
             }
 	}

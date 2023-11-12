@@ -26,7 +26,10 @@ public class ObjectManager {
     private BufferedImage[] aguaArr, portaArr, tiroArr;
     private BufferedImage[][] bauArr, fogoArr;
     
-    private static ArrayList<? extends GameObject> coracoes, aguas, portas, baus, caixas, fogos, bolas, tiros = new ArrayList<>();
+    private static ArrayList<? extends GameObject> coracoes, aguas, portas, baus, caixas = new ArrayList<>();
+    private static ArrayList<Tiro> tiros = new ArrayList<>();
+    private static ArrayList<Fogo> fogos = new ArrayList<>();
+    private static ArrayList<Bola> bolas = new ArrayList<>();
     
     public ObjectManager(Playing playing) {
         
@@ -41,9 +44,10 @@ public class ObjectManager {
         caixas = level.getCaixas();
         portas = level.getPortas();
         baus = level.getBaus();
-        //baus = level.getBaus();
-        //bolas.clear();
-        //fogos.clear();
+        baus = level.getBaus();
+        bolas.clear();
+        fogos.clear();
+        tiros.clear();
     }
     
     public void update(int[][] lvlData) {
@@ -53,9 +57,9 @@ public class ObjectManager {
         updateObject(baus, lvlData);
         updateObject(aguas, lvlData);
         updateObject(portas, lvlData);
-        //updateObject(bolas, lvlData);
-        //updateObject(tiros, lvlData);
-        //updateObject(fogos, lvlData);
+        updateObject(bolas, lvlData);
+        updateObject(tiros, lvlData);
+        updateObject(fogos, lvlData);
     }
     
     private void updateObject(ArrayList<? extends GameObject> array, int[][] lvlData) {
@@ -73,9 +77,9 @@ public class ObjectManager {
         drawObject(caixas, g);
         drawObject(baus, g);
         drawObject(portas, g);
-        //drawObject(fogos, g);
-        //drawObject(bolas, g);
-        //drawObject(tiros, g);
+        drawObject(fogos, g);
+        drawObject(bolas, g);
+        drawObject(tiros, g);
     }
     
     private void drawObject(ArrayList<? extends GameObject> array, Graphics g) {
@@ -100,7 +104,7 @@ public class ObjectManager {
                     
                     case BOLA -> g.drawImage(bola, (int) a.getHitbox().x, (int) a.getHitbox().y, Game.TILES_SIZE, Game.TILES_SIZE, null);
                 }
-                a.drawHitbox(g);
+                //a.drawHitbox(g);
         }
     }
     
@@ -123,16 +127,15 @@ public class ObjectManager {
         resetObject(baus);
         resetObject(aguas);
         resetObject(portas);
-        //bolas.clear();
-        //tiros.clear();
-        //fogos.clear();
+        bolas.clear();
+        tiros.clear();
+        fogos.clear();
     }
     
     private void resetObject(ArrayList<? extends GameObject> array) {
         
         for (GameObject a : array) {
-            if(a.isActive())
-                a.resetObject();
+            a.resetObject();
         }
     }
     
@@ -154,7 +157,15 @@ public class ObjectManager {
     
     public static boolean checkCaixaHit(Rectangle2D hitbox, float xSpeed, float ySpeed) {
         
-        return checkHit(caixas, hitbox, xSpeed, ySpeed);
+        boolean temp = false;
+            
+        for(GameObject cx : caixas)
+            if(cx.isActive())
+                if(cx.getHitbox() != hitbox)
+                    if(cx.getHitbox().intersects(hitbox.getX() + xSpeed, hitbox.getY() + ySpeed, hitbox.getWidth(), hitbox.getHeight()))
+                    temp = true;
+
+        return temp;
     }
     
     public static boolean checkCoracaoHit(Rectangle2D hitbox, float xSpeed, float ySpeed) {
@@ -176,13 +187,22 @@ public class ObjectManager {
     
     public static boolean checkBolaHit(Rectangle2D hitbox, float xSpeed, float ySpeed) {
         
-        //return checkHit(bolas, hitbox, xSpeed, ySpeed);
-        return false;
+        return checkHit(bolas, hitbox, xSpeed, ySpeed);
     }
      
     public static boolean checkTiroHit(Bola bola) {
         
-        return checkHit(tiros, bola.getHitbox(), 0, 0);
+        boolean temp = false;
+            
+        for(Tiro t : tiros)
+            if(t.isActive())
+                if(t.getHitbox().intersects(bola.getHitbox().getX(), bola.getHitbox().getY(), bola.getHitbox().getWidth(), bola.getHitbox().getHeight())) {
+                    temp = true;
+                    bola.aniIndex = t.aniIndex;
+                    t.setActive(false);
+                }
+
+        return temp; 
     }
     
     protected boolean checkHitPlayer(Rectangle2D hitbox, float xSpeed, float ySpeed) {
@@ -190,19 +210,19 @@ public class ObjectManager {
         return Playing.getPlayer().getHitbox().intersects(hitbox.getX() + xSpeed, hitbox.getY() + ySpeed, hitbox.getWidth(), hitbox.getHeight());
     }
     
-    public static void addBola(float x, float y, int direction) {
+    public static void addBola(float x, float y, int aniIndex) {
         
-        //bolas.add(new Bola(x, y));
+        bolas.add(new Bola(x, y, aniIndex));
     }
     
-    public static void addFogo(float x, float y) {
+    public static void addFogo(float x, float y, int aniIndex) {
         
-        //fogos.add(new Fogo(x, y));
+        fogos.add(new Fogo(x, y, aniIndex));
     }
     
-    public void addTiros(float x, float y) {
+    public void addTiros(float x, float y, int aniIndex) {
         
-        //tiros.add();
+        tiros.add(new Tiro(x, y, aniIndex));
     }
 
     public static Playing getPlaying() {

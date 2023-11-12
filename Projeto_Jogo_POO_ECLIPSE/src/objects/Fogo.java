@@ -12,8 +12,9 @@ import static utilz.Constants.ObjectConstants.*;
  */
 public class Fogo extends Projectile{
     
-    public Fogo(float x, float y) {
+    public Fogo(float x, float y, int aniIndex) {
         super(x, y, FOGO);
+        this.aniIndex = aniIndex;
     }
 
     @Override
@@ -21,8 +22,9 @@ public class Fogo extends Projectile{
         
         if(isActive()) {
             updatePos();
-            if(checkHitPlayer(getHitbox(), 0, 0))
+            if(checkHitPlayer(getHitbox(), 0, 0)) {
                 Playing.getPlayer().setAlive(false);
+            }
         }
     }
 }

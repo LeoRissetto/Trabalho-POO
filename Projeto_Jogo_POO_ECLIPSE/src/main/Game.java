@@ -9,7 +9,7 @@ public class Game implements Runnable {
 
 	private final GamePanel gamePanel;
 	private Thread gameThread;
-	private final int FPS_SET = 300;
+	private final int FPS_SET = 120;
 	private final int UPS_SET = 200;
 	
 	private Playing playing;

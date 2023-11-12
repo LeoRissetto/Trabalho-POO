@@ -14,101 +14,98 @@ import static objects.ObjectManager.openDoor;
 
 public class Playing extends State implements Statemethods {
 	
-	private static Player player;
-	private LevelManager levelManager;
-	private EnemyManager enemyManager;
-        private ObjectManager objectManager;
-        private int tiros;
+    private static Player player;
+    private LevelManager levelManager;
+    private EnemyManager enemyManager;
+    private ObjectManager objectManager;
 
-	public Playing(Game game) {
-		super(game);
-		initClasses();
-                loadStartLevel();
-	}
+    public Playing(Game game) {
+            super(game);
+            initClasses();
+            loadStartLevel();
+    }
 
-	private void initClasses() {
-		levelManager = new LevelManager(game);
-		enemyManager = new EnemyManager(this);
-                objectManager = new ObjectManager(this);
-		player = new Player(400, 300, (int) (16 * Game.SCALE), (int) (16 * Game.SCALE));
-                player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
-		player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
-		player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
-                tiros = 2;
+    private void initClasses() {
+            levelManager = new LevelManager(game);
+            enemyManager = new EnemyManager(this);
+            objectManager = new ObjectManager(this);
+            player = new Player(400, 300, (int) (16 * Game.SCALE), (int) (16 * Game.SCALE));
+            player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
+            player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+            player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
+    }
 
-	}
+    @Override
+    public void update() {
 
-	@Override
-	public void update() {
-            
-                if(!player.isAlive()) {
-                    
-                    if(player.vidas > 0) {
-                        levelManager.setLvlIndex(levelManager.getLvlIndex() - 1);
-                    }
-                    else {
-                        levelManager.setLvlIndex(3);
-                        player.vidas = 5;
-                    }
-                    setLevelCompleted(true);
-                    player.setAlive(true);
+            if(!player.isAlive()) {
+
+                if(player.vidas > 0) {
+                    levelManager.setLvlIndex(levelManager.getLvlIndex() - 1);
                 }
-                
-                if(openDoor())
-                    enemyManager.killAllEnemies();
-		
-		levelManager.update();
-		player.update();
-		enemyManager.update(levelManager.getCurrentLevel().getLevelData());
-                objectManager.update(levelManager.getCurrentLevel().getLevelData());
+                else {
+                    levelManager.setLvlIndex(3);
+                    player.vidas = 5;
+                }
+                setLevelCompleted(true);
+                player.setAlive(true);
+            }
+
+            if(openDoor())
+                enemyManager.killAllEnemies();
+
+            levelManager.update();
+            player.update();
+            enemyManager.update(levelManager.getCurrentLevel().getLevelData());
+            objectManager.update(levelManager.getCurrentLevel().getLevelData());
+    }
+
+    @Override
+    public void draw(Graphics g) {
+            levelManager.draw(g);
+            enemyManager.draw(g);
+            objectManager.draw(g);
+            player.render(g);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+            // TODO Auto-generated method stub
+            switch (e.getKeyCode()) {
+            case KeyEvent.VK_W -> player.setUp(true);
+            case KeyEvent.VK_A -> player.setLeft(true);
+            case KeyEvent.VK_S -> player.setDown(true);
+            case KeyEvent.VK_D -> player.setRight(true);
+            case KeyEvent.VK_X -> {
+                if(player.tiros > 0){                 
+                    objectManager.addTiros(player.getHitbox().x, player.getHitbox().y,player.getWalkDir());
+                    player.tiros--;
+                }
+            }
         }
-        
-	@Override
-	public void draw(Graphics g) {
-		levelManager.draw(g);
-		enemyManager.draw(g);
-                objectManager.draw(g);
-                player.render(g);
-	}
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
+            Gamestate.state = Gamestate.MENU;
+    }
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_W -> player.setUp(true);
-		case KeyEvent.VK_A -> player.setLeft(true);
-		case KeyEvent.VK_S -> player.setDown(true);
-		case KeyEvent.VK_D -> player.setRight(true);
-                case KeyEvent.VK_X -> {
-                    if(tiros>0) {
-                        objectManager.addTiros(player.getHitbox().x, player.getHitbox().y);
-                        tiros--;
-                        }
-                    }
-		}
-		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
-			Gamestate.state = Gamestate.MENU;
-	}
+    @Override
+    public void keyReleased(KeyEvent e) {
+            // TODO Auto-generated method stub
+            switch (e.getKeyCode()) {
+            case KeyEvent.VK_W -> player.setUp(false);
+            case KeyEvent.VK_A -> player.setLeft(false);
+            case KeyEvent.VK_S -> player.setDown(false);
+            case KeyEvent.VK_D -> player.setRight(false); 
+            }
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_W -> player.setUp(false);
-		case KeyEvent.VK_A -> player.setLeft(false);
-		case KeyEvent.VK_S -> player.setDown(false);
-		case KeyEvent.VK_D -> player.setRight(false); 
-		}
-		
-	}
+    }
 
-	public void windowFocusLost() {
-		player.resetDirBooleans();
-	}
+    public void windowFocusLost() {
+            player.resetDirBooleans();
+    }
 
-	public static Player getPlayer() {
-		return player;
-	}
+    public static Player getPlayer() {
+            return player;
+    }
 
     private void loadStartLevel() {
         
@@ -122,7 +119,6 @@ public class Playing extends State implements Statemethods {
         levelManager.loadNextLevel();
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
-        tiros = 2;
     }
 
     public EnemyManager getEnemyManager() {
@@ -143,14 +139,7 @@ public class Playing extends State implements Statemethods {
     public void setLevelCompleted(boolean levelCompleted) {
         if(levelCompleted == true) {
             loadNextLevel();
+            player.tiros = 2;
         }
-    }
-
-    public void setTiros(int tiros) {
-        this.tiros = tiros;
-    }
-
-    public int getTiros() {
-        return tiros;
     }
 }

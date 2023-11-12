@@ -15,7 +15,7 @@ public abstract class Projectile extends GameObject{
     
     public Projectile(float x, float y, int objectType) {
         
-        super(x, y, Game.TILES_SIZE, Game.TILES_SIZE, objectType);
+        super(x, y, Game.TILES_SIZE - 1, Game.TILES_SIZE - 1, objectType);
     }
     
     public void updatePos() {

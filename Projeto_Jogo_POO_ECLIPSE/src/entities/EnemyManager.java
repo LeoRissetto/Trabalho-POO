@@ -73,7 +73,7 @@ public class EnemyManager {
                             
                         case BIXO_ROSA -> g.drawImage(bixoRosaArr[a.getWalkDir()][a.getState()], (int) a.getHitbox().x, (int) a.getHitbox().y, a.width, a.height, null);             
                     }
-                    a.drawHitbox(g);
+                    //a.drawHitbox(g);
             }
 	}
 	
@@ -113,8 +113,7 @@ public class EnemyManager {
         
         private void resetEnemy(ArrayList<? extends Enemy> array) {
             for (Enemy a : array)
-                if(a.isActive())
-                    a.resetEnemy();
+                a.resetEnemy();
         }
 
         public void killAllEnemies() {

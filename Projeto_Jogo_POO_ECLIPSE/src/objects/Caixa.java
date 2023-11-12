@@ -14,6 +14,7 @@ public class Caixa extends GameObject{
         super(x, y, Game.TILES_SIZE - 1, Game.TILES_SIZE - 1, CAIXA);
     }
     
+    @Override
     public void update(int[][] lvlData){
         
         updateMove(lvlData);
@@ -27,7 +28,6 @@ public class Caixa extends GameObject{
             if (!checkEnemyHit(hitbox, Playing.getPlayer().getXSpeed(), Playing.getPlayer().getYSpeed())) {
                 hitbox.x += Playing.getPlayer().getXSpeed();
                 hitbox.y += Playing.getPlayer().getYSpeed();
-            } else {
             }
         }
     }

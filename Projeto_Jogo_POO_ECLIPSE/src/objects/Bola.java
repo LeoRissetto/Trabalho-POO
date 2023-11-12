@@ -15,8 +15,9 @@ public class Bola extends Projectile{
     
     public boolean hit = false;
     
-    public Bola(float x, float y) {
+    public Bola(float x, float y, int aniIndex) {
         super(x, y, BOLA);
+        this.aniIndex = aniIndex;
     }
 
     @Override
