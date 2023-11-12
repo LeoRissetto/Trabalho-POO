@@ -185,6 +185,11 @@ public class ObjectManager {
         return temp; 
     }
     
+    public static boolean checkAguaHit(Rectangle2D hitbox, float xSpeed, float ySpeed) {
+        
+        return checkHit(aguas, hitbox, xSpeed, ySpeed);
+    }
+    
     public static boolean checkBolaHit(Rectangle2D hitbox, float xSpeed, float ySpeed) {
         
         return checkHit(bolas, hitbox, xSpeed, ySpeed);
