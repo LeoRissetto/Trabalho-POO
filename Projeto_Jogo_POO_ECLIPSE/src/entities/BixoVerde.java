@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.Random;
+
 import static utilz.Constants.Directions.*;
 import static utilz.Constants.ANI_SPEED;
 import static utilz.Constants.EnemyConstants.*;
