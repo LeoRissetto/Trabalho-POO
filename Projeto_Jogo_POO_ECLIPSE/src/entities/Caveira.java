@@ -19,7 +19,7 @@ public class Caveira extends Enemy {
 
     public Caveira(float x, float y) {
 
-        super(x, y, Game.TILES_SIZE, Game.TILES_SIZE-1, CAVEIRA);
+        super(x, y, Game.TILES_SIZE, Game.TILES_SIZE - 1, CAVEIRA);
         state = IDLE;
         walkDir = LEFT;
     }
@@ -57,35 +57,52 @@ public class Caveira extends Enemy {
         }
     }
 
-    private void updateMove(int[][] lvlData) {
+   private void updateMove(int[][] lvlData) {
 
         switch (state) {
 
-                case IDLE -> {
+            case IDLE -> {
+            }
+
+            case MOVING -> {
+                float xSpeed = 0;
+                float ySpeed = 0;
+
+
+                if (walkDir == LEFT)
+                    xSpeed = -walkSpeed;
+
+                else if(walkDir == RIGHT)
+                    xSpeed = walkSpeed;
+
+                else if(walkDir == UP)
+                    ySpeed = -walkSpeed;
+
+                else
+                    ySpeed = walkSpeed;
+
+                if (CanMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, lvlData) && !checkCaixaHit(hitbox, xSpeed, 0)) {
+
+                    hitbox.x += xSpeed;
+                    hitbox.y += ySpeed;
                 }
 
-                case MOVING -> {
-                    float xSpeed = 0;
+                else if(checkHitPlayer(hitbox, xSpeed, ySpeed))
+                    state = IDLE;
 
-                    if (walkDir == LEFT)
-                        xSpeed = -walkSpeed;
-                    else
-                        xSpeed = walkSpeed;
-
-                    if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData) && !checkCaixaHit(hitbox, xSpeed, 0))
-                        hitbox.x += xSpeed;
-                    else
-                        changeWalkDir();
-                }
+                else
+                    changeWalkDir();
+            }
         }
     }
 
     private void changeWalkDir() {
-
-        if (walkDir == LEFT)
-                walkDir = RIGHT;
-
-        else
-                walkDir = LEFT;
-    }	
+        walkDir = switch ((int) (Math.random() * 4)) {
+        case 0 -> LEFT;
+        case 1 -> RIGHT;
+        case 2 -> UP;
+        case 3 -> DOWN;
+        default -> walkDir; // Caso inesperado, mantém a direção atual
+        };
+    }
 }

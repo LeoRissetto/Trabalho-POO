@@ -108,6 +108,6 @@ public class BixoVerde extends Enemy {
         case 2 -> UP;
         case 3 -> DOWN;
         default -> walkDir; // Caso inesperado, mantém a direção atual
-    };
-}
+        };
+    }
 }
