@@ -136,7 +136,7 @@ public class LoadSave {
             e.printStackTrace();
         }
 
-        if (numeroLido > 3 || numeroLido <= 0) {
+        if (numeroLido > 7 || numeroLido < 0) {
             return 0;
         }
         return numeroLido;

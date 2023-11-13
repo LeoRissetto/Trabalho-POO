@@ -70,7 +70,7 @@ public class Player extends Entity {
 		
             aniTick++;
 
-            if (aniTick >= ANI_SPEED) {
+            if (aniTick >= ANI_SPEED - 15) {
 
                     aniTick = 0;
                     aniIndex++;

@@ -65,7 +65,6 @@ public class HelpMethods {
                         lvlData[j][i] = value;
                 }
         return lvlData;
-
     }
 
     public static ArrayList<? extends Enemy> GetEnemies(int enemyType, BufferedImage img) {

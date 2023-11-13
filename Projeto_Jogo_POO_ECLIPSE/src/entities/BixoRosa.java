@@ -62,7 +62,7 @@ public class BixoRosa extends Enemy {
 
             aniTick++;
 
-            if (aniTick >= ANI_SPEED + 10) {
+            if (aniTick >= ANI_SPEED - 5) {
 
                     aniTick = 0;
                     aniIndex++;

@@ -23,22 +23,22 @@ public abstract class Projectile extends GameObject{
         
         switch(aniIndex) {
             case UP -> {
-                hitbox.y -= 0.50f * Game.SCALE;
-                ySpeed = -0.50f * Game.SCALE;
+                hitbox.y -= 0.60f * Game.SCALE;
+                ySpeed = -0.60f * Game.SCALE;
             }    
             case DOWN -> {
-                hitbox.y += 0.50f * Game.SCALE;
-                ySpeed = 0.50f * Game.SCALE;
+                hitbox.y += 0.60f * Game.SCALE;
+                ySpeed = 0.60f * Game.SCALE;
             }
                 
             case LEFT -> {
-                hitbox.x -= 0.50f * Game.SCALE;
-                xSpeed = -0.50f * Game.SCALE;
+                hitbox.x -= 0.60f * Game.SCALE;
+                xSpeed = -0.60f * Game.SCALE;
             }
                 
             case RIGHT -> {
-                hitbox.x += 0.50f * Game.SCALE;
-                xSpeed = -0.50f * Game.SCALE;
+                hitbox.x += 0.60f * Game.SCALE;
+                xSpeed = -0.60f * Game.SCALE;
             }
         }
     }

@@ -21,12 +21,10 @@ public class Playing extends State implements Statemethods {
     private ObjectManager objectManager;
 
     public Playing(Game game) {
+        
             super(game);
             initClasses();
             loadStartLevel();
-            
-            //LoadSave.CreateFile();
-            //LoadSave.ReadFromFile();
     }
 
     private void initClasses() {
@@ -49,7 +47,7 @@ public class Playing extends State implements Statemethods {
                     levelManager.setLvlIndex(levelManager.getLvlIndex() - 1);
                 }
                 else {
-                    levelManager.setLvlIndex(3);
+                    levelManager.setLvlIndex(-1);
                     player.vidas = 5;
                 }
                 setLevelCompleted(true);
@@ -81,6 +79,9 @@ public class Playing extends State implements Statemethods {
             case KeyEvent.VK_A -> player.setLeft(true);
             case KeyEvent.VK_S -> player.setDown(true);
             case KeyEvent.VK_D -> player.setRight(true);
+            case KeyEvent.VK_M -> Playing.getPlayer().setAlive(false);
+            case KeyEvent.VK_P -> LoadSave.WriteToFile(levelManager.getLvlIndex());
+            case KeyEvent.VK_ESCAPE -> Gamestate.state = Gamestate.MENU;
             case KeyEvent.VK_X -> {
                 if(player.tiros > 0){                 
                     objectManager.addTiros(player.getHitbox().x, player.getHitbox().y,player.getWalkDir());
@@ -88,11 +89,6 @@ public class Playing extends State implements Statemethods {
                 }
             }
         }
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
-            Gamestate.state = Gamestate.MENU;
-        
-        if (e.getKeyCode() == KeyEvent.VK_P)
-            LoadSave.WriteToFile(levelManager.getLvlIndex());
     }
 
     @Override
