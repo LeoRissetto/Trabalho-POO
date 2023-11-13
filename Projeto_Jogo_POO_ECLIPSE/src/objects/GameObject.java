@@ -4,6 +4,8 @@ import gamestates.Playing;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
+import main.Game;
+import static utilz.Constants.ObjectConstants.BOLA;
 
 public abstract class GameObject {
     
@@ -42,7 +44,10 @@ public abstract class GameObject {
     }
 
     private void initHitbox(float width, float height) {
-	hitbox = new Rectangle2D.Float(x, y, width, height);
+        if(objectType == BOLA)
+            hitbox = new Rectangle2D.Float(x, y, Game.TILES_SIZE - 1, Game.TILES_SIZE - 1);
+        else
+            hitbox = new Rectangle2D.Float(x, y, width, height);
     }
     
     public Rectangle2D.Float getHitbox() {

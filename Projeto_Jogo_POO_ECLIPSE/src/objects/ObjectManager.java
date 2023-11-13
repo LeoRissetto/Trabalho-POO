@@ -98,9 +98,9 @@ public class ObjectManager {
 
                     case CAIXA -> g.drawImage(caixa, (int) a.getHitbox().x, (int) a.getHitbox().y, a.width, a.height, null);
                     
-                    case FOGO -> g.drawImage(fogoArr[a.getAniIndex()][0], (int) a.getHitbox().x, (int) a.getHitbox().y, Game.TILES_SIZE, Game.TILES_SIZE, null);
+                    case FOGO -> g.drawImage(fogoArr[a.getAniIndex()][0], (int) (a.getHitbox().x - (3 * Game.SCALE)), (int) (a.getHitbox().y - (1.5 * Game.SCALE)), Game.TILES_SIZE, Game.TILES_SIZE, null);
                     
-                    case TIRO -> g.drawImage(tiroArr[a.getAniIndex()], (int) a.getHitbox().x, (int) a.getHitbox().y, Game.TILES_SIZE, Game.TILES_SIZE, null);
+                    case TIRO -> g.drawImage(tiroArr[a.getAniIndex()], (int) (a.getHitbox().x - (3 * Game.SCALE)), (int) (a.getHitbox().y - (1.5 * Game.SCALE)), Game.TILES_SIZE, Game.TILES_SIZE, null);
                     
                     case BOLA -> g.drawImage(bola, (int) a.getHitbox().x, (int) a.getHitbox().y, Game.TILES_SIZE, Game.TILES_SIZE, null);
                 }
