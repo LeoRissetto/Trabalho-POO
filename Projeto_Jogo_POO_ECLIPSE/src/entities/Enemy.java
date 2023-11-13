@@ -34,6 +34,7 @@ public abstract class Enemy extends Entity {
             hitbox.y = y;
             active = true;
             state = MOVING;
+            aniIndex = 0;
 	}
         
         public boolean isActive() {
