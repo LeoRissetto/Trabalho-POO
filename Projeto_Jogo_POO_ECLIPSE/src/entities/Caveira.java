@@ -19,7 +19,7 @@ public class Caveira extends Enemy {
 
     public Caveira(float x, float y) {
 
-        super(x, y, Game.TILES_SIZE, Game.TILES_SIZE-1, CAVEIRA);
+        super(x, y, Game.TILES_SIZE, Game.TILES_SIZE, CAVEIRA);
         state = IDLE;
         walkDir = LEFT;
     }

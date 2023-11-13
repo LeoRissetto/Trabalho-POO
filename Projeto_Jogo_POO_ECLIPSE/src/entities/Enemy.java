@@ -4,6 +4,7 @@ import java.awt.geom.Rectangle2D;
 
 import gamestates.Playing;
 import main.Game;
+import static utilz.Constants.EnemyConstants.MOVING;
 
 public abstract class Enemy extends Entity {
 	
@@ -32,6 +33,7 @@ public abstract class Enemy extends Entity {
             hitbox.x = x;
             hitbox.y = y;
             active = true;
+            state = MOVING;
 	}
         
         public boolean isActive() {
